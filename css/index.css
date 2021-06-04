@@ -76,3 +76,86 @@ footer,
 #page2text{
     padding: 70px 0 70px;
 }
+
+
+.horizontal-section {
+  background-color: pink;
+
+}
+
+.sticky-wrapper {
+  position: sticky;
+  top: 60px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.element-wrapper {
+  position: relative;
+  display: flex;
+  margin: 0 20px;
+}
+
+.element1 {
+  width: 100vw;
+  padding: 40px;
+  margin-right: 20px;
+  height: 600px;
+  background-color: purple;
+  flex-shrink: 0;
+}
+
+.element2 {
+  margin-right: 20px;
+  padding: 40px;
+
+  width: 100vw;
+  height: 600px;
+  background-color: violet;
+  flex-shrink: 0;
+}
+
+.element3 {
+  padding: 40px;
+  width: 100vw;
+  margin-right: 20px;
+
+  height: 600px;
+  background-color: blue;
+  flex-shrink: 0;
+}
+
+.element4 {
+  padding: 40px;
+
+  width: 100vw;
+  margin-right: 20px;
+
+  height: 600px;
+  background-color: green;
+  flex-shrink: 0;
+}
+
+.element5 {
+  padding: 40px;
+  width: 100vw;
+  margin-right: 20px; 
+
+  height: 600px;
+  background-color: orange;
+  flex-shrink: 0;
+}
+
+.element6 {
+  padding: 40px;
+  width: 100vw;
+  height: 600px;
+  margin-right: 20px;
+
+  background-color: red;
+  flex-shrink: 0;
+}
+
+#page3text{
+  padding: 70px 0 70px;
+}
