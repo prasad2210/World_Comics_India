@@ -19,59 +19,68 @@
 <body onresize="calcHeight()">
   <!-- header -->
   <header>
-    <nav class="
+    <div class="container-fluid">
+
+      <nav class="
           navbar navbar-expand-lg navbar-dark
           fixed-top
           scrolling-navbar
           pt-2
         ">
-      <!-- <div class="container"> -->
-      <a class="navbar-brand" href="#">Digital Safty Campaign</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <!-- <div class="container"> -->
+        <a class="navbar-brand" href="#">Digital Safty Campaign</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto w-100 justify-content-end">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Blogs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Comics</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Stories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Resources</a>
-          </li>
-        </ul>
-        <!-- <form class="form-inline my-2 my-lg-0">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto w-100 justify-content-end">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Blogs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Comics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Stories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Resources</a>
+            </li>
+          </ul>
+          <!-- <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form> -->
-        <form class="form-inline">
-          <div class="md-form my-0 ml-2">
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search" />
-          </div>
-        </form>
-      </div>
-      <!-- </div> -->
-    </nav>
+          <form class="form-inline">
+            <div class="md-form my-0 ml-2">
+              <input class="form-control" type="text" placeholder="Search" aria-label="Search" />
+            </div>
+          </form>
+        </div>
+        <!-- </div> -->
+      </nav>
+    </div>
+
 
     <div id="intro" class="view">
-      <div class="col-sm-7 text-white justify-content-center" id="header-text">
-        <h1>Digital Safty Compagin</h1>
-        <br />
-        <hr class="hr-white" />
-        <h3>
-          knowledge hub for new internet users to learn how to safely access
-          the internet
-        </h3>
+      <div class="container-fluid">
+        <div class="row ">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-6 text-white justify-content-center" id="header-text">
+            <h1>Digital Safty Compagin</h1>
+            <br />
+            <hr class="hr-white" />
+            <h3>
+              knowledge hub for new internet users to learn how to safely access
+              the internet
+            </h3>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -83,7 +92,7 @@
       <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-          <div class="content" id="page2text">
+          <div class="content whitePage">
             <h1>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -201,7 +210,7 @@
       <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-          <div class="content" id="page3text">
+          <div class="content whitePage">
             <h1>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -216,15 +225,124 @@
       </div>
     </div>
 
-    <div class="container-fluid">
+
+    <div class="container-fluid comics border">
+      <div class="row justify-content-center">
+        <h1>
+          Comics By People
+        </h1>
+      </div>
       <div class="row">
-        <div class="col-sm-4">
-          <img src="./images/" alt="" srcset="">
+
+        <div class="col-sm-4  ">
+          <div class="m-1 border comicImg">
+            <img src="./images/comic1.jpg" class="img-responsive" width="100%" alt="img">
+
+          </div>
+          <!-- <p>dfghdsfhgd</p> -->
         </div>
+        <div class="col-sm-4  ">
+          <div class="m-1 border comicImg">
+            <img src="./images/comic2.jpg" class="img-responsive" width="100%" alt="img">
+
+          </div>
+          <!-- <p>dfghdsfhgd</p> -->
+        </div>
+        <div class="col-sm-4 ">
+          <div class="m-1 border comicImg">
+            <img src="./images/comic3.jpg" class="img-responsive" width="100%" alt="img">
+
+          </div>
+          <!-- <p>dfghdsfhgd</p> -->
+        </div>
+
       </div>
     </div>
 
 
+
+    <div class="border posts mt-2">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <h1>
+            Instagram Stories
+          </h1>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post1.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post2.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post3.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post4.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="container-fluid mt-4">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post5.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post6.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post7.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="instaPost m-2">
+              <img src="./images/post8.jpg" class="img-responsive" width="100%" alt="img_post">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mt-2 border">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div class="content whitePage">
+            <h1>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+              in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
   <!-- main content -->
 
