@@ -11,15 +11,16 @@ window.addEventListener("scroll", function () {
   }
 });
 
-var scrollDistance, distFromTop, windowWidth, horLength;
+var scrollDistance, distFromTop, windowWidth, horLength, verticalDist;
 calcHeight();
 function calcHeight(){
 
 windowWidth = window.innerWidth;
 horLength = document.querySelector(".element-wrapper").scrollWidth;
+verticalDist = $(".element-wrapper").innerHeight();
 distFromTop = document.querySelector(".horizontal-section").offsetTop;
 scrollDistance = distFromTop + horLength - windowWidth;
-document.querySelector(".horizontal-section").style.height = horLength + "px";
+document.querySelector(".horizontal-section").style.height = horLength + verticalDist + 60 - windowWidth  + "px";
 
 console.log(windowWidth+' '+horLength+ ' '+ distFromTop+' '+scrollDistance);
 
@@ -38,5 +39,6 @@ window.onscroll = function () {
   else if(scrollTop > scrollDistance){
     document.querySelector(".element-wrapper").style.transform =
       "translateX(-" + (horLength- windowWidth) + "px)";
+
   }
 };
