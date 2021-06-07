@@ -20,7 +20,7 @@ horLength = document.querySelector(".element-wrapper").scrollWidth;
 verticalDist = $(".element-wrapper").innerHeight();
 distFromTop = document.querySelector(".horizontal-section").offsetTop;
 scrollDistance = distFromTop + horLength - windowWidth;
-document.querySelector(".horizontal-section").style.height = horLength + verticalDist + 60 - windowWidth  + "px";
+document.querySelector(".horizontal-section").style.height = horLength + verticalDist + 200 - windowWidth  + "px";
 
 console.log(windowWidth+' '+horLength+ ' '+ distFromTop+' '+scrollDistance);
 

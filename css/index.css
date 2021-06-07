@@ -87,13 +87,13 @@ footer,
 
 
 .horizontal-section {
-  /* background-color: pink; */
+  background-color: pink;
 
 }
 
 .sticky-wrapper {
   position: sticky;
-  top: 85px;
+  top: 60px;
   width: 100%;
   overflow: hidden;
 }
@@ -106,16 +106,15 @@ footer,
 
 .horizontal-img{
 
-  height: 80vh;
+  height: calc(100vh - 60px);
+  z-index: 90;
 }
 
 .element1 {
-  width: 100vw;
-  padding: 40px;
-  margin-right: 20px;
-  height: 600px;
-  background-color: purple;
+  position: absolute;
+  width: 100%;
   flex-shrink: 0;
+  z-index: 100;
 }
 
 .element2 {
