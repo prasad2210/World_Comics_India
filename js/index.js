@@ -1,13 +1,15 @@
-console.log("sdfsg");
+// console.log("sdfsg");
 let nav = document.querySelector("nav");
 
 window.addEventListener("scroll", function () {
-  if (window.pageYOffset > 100) {
-    nav.classList.remove("navbar-dark");
-    nav.classList.add("bg-white", "shadow", "navbar-light");
+  if (window.pageYOffset > 130) {
+    // nav.classList.remove("navbar-dark");
+    nav.classList.add("bg-white", "shadow");
+    $(".nav-title-div").css("display", 'block');
   } else {
-    nav.classList.remove("bg-white", "shadow", "navbar-light");
-    nav.classList.add("navbar-dark");
+    nav.classList.remove("bg-white", "shadow");
+    // nav.classList.add("navbar-dark");
+    $(".nav-title-div").css("display", 'none');
   }
 });
 
