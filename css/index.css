@@ -3,14 +3,10 @@
   padding: 0;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
-body,
-html,
-header,
-main,
-footer,
-#intro {
+/* body,
+html{
   height: 100%;
-}
+} */
 
 #header {
   position: absolute;
