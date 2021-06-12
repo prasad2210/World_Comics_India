@@ -17,11 +17,14 @@ footer,
   z-index: 10;
   width: 100%;
 }
-#intro {
-  background-image: url("../images/cover.gif");
 
-  padding: 60px;
-  height: 100vh;
+
+.intro {
+
+  background-image: url('../images/cover1.gif');
+
+  margin-top: 10px;
+  height: calc(100vh - 10px);
   /* Center and scale the image nicely */
   width: 100%;
   background-position: center;
@@ -46,35 +49,33 @@ footer,
 }
 
 .nav-img-start {
-  width: 15%;
+  width: 13%;
   position: absolute;
-  left: 3%;
+  left: 1%;
+  top: 10%;
+  z-index: 2;
 }
 
 .w-100 {
   width: 100% !important;
 }
 
-#header-text {
-  padding-top: 35vh;
-}
-
+/* 
 #header-text h1 {
   font-weight: 500;
   font-size: 325%;
   line-height: 110%;
-}
+} */
 
 .hr-white {
   border-top: 3px white solid;
 }
 
 .whitePage {
-  padding: 70px 0 70px;
 }
 
 .horizontal-section {
-  background-color: pink;
+  background-color: white;
 }
 
 .sticky-wrapper {
@@ -240,9 +241,9 @@ footer,
 }
 
 .comic-img {
-  height: 100%;
+  width: 100%;
   margin: auto;
-  transition: 0.9s;
+  transition: 0.5s;
   opacity: .5;
 }
 
@@ -259,4 +260,9 @@ footer,
   height: auto;
   margin: auto;
   box-shadow: rgba(0, 0, 0) 4px 4px 15px;
+}
+
+
+.playpause img {
+  width: 18vh;
 }
