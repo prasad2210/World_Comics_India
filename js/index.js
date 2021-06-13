@@ -4,10 +4,10 @@ let nav = document.querySelector("nav");
 window.addEventListener("scroll", function () {
   if (window.pageYOffset > 130) {
     // nav.classList.remove("navbar-dark");
-    // nav.classList.add("bg-white", "shadow");
+    nav.classList.add("bg-dark");
     $(".nav-title-div").css("visibility", "visible");
   } else {
-    // nav.classList.remove("bg-white", "shadow");
+    nav.classList.remove("bg-dark");
     // nav.classList.add("navbar-dark");
     $(".nav-title-div").css("visibility", "hidden");
   }

@@ -16,6 +16,7 @@ html{
 .header-text{
   background-color: rgba(0, 0, 0, 0.7);
   padding-left: 10%;
+  padding-right: 10%;
 }
 .intro_section{
   height: calc(100vh - 10px);
@@ -120,11 +121,11 @@ html{
 }
 .bubble2 {
   left: 33%;
-  width: 23%;
+  width: 21%;
 }
 .bubble3 {
   left: 60%;
-  width: 16%;
+  width: 18%;
   top: 10%;
 }
 .bubble4 {
@@ -170,7 +171,7 @@ html{
 
 .bubble p {
   font-weight: 600;
-  font-size: 100%;
+  font-size: 150%;
   position: absolute;
   text-align: center;
 }
@@ -180,19 +181,19 @@ html{
   top: 16%;
 }
 .bubble2 p {
-  left: 15%;
-  width: 70%;
-  top: 24%;
+  left: 16%;
+  width: 69%;
+  top: 17%;
 }
 .bubble3 p {
   left: 20%;
   width: 60%;
-  top: 28%;
+  top: 25%;
 }
 .bubble4 p {
-  left: 10%;
-  width: 86%;
-  top: 22%;
+  left: 16%;
+  width: 73%;
+  top: 19%;
 }
 .bubble5 p {
   left: 20%;
@@ -200,14 +201,14 @@ html{
   top: 44%;
 }
 .bubble6 p {
-  left: 28%;
+  left: 27%;
   width: 60%;
-  top: 36%;
+  top: 25%;
 }
 .bubble7 p {
   left: 16%;
-  width: 68%;
-  top: 35%;
+  width: 73%;
+  top: 28%;
 }
 .bubble8 p {
   left: 25%;
@@ -220,19 +221,19 @@ html{
   top: 30%;
 }
 .bubble10 p {
-  left: 25%;
+  left: 23%;
   width: 60%;
-  top: 37%;
+  top: 28%;
 }
 .bubble11 p {
-  left: 15%;
-  width: 70%;
-  top: 24%;
+  left: 10%;
+  width: 81%;
+  top: 25%;
 }
 .bubble12 p {
   left: 25%;
   width: 60%;
-  top: 35%;
+  top: 25%;
 }
 
 .comics {
@@ -242,7 +243,7 @@ html{
 
 .comic-img-div {
   /* height: 100%; */
-  height: calc(80vh - 60px);
+  height: calc(80vh - 69px);
   width: auto;
   display: flex;
   flex-direction: row;
