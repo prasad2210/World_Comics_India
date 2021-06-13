@@ -5,11 +5,11 @@ window.addEventListener("scroll", function () {
   if (window.pageYOffset > 130) {
     // nav.classList.remove("navbar-dark");
     // nav.classList.add("bg-white", "shadow");
-    $(".nav-title-div").css("display", "block");
+    $(".nav-title-div").css("visibility", "visible");
   } else {
     // nav.classList.remove("bg-white", "shadow");
     // nav.classList.add("navbar-dark");
-    $(".nav-title-div").css("display", "none");
+    $(".nav-title-div").css("visibility", "hidden");
   }
 });
 

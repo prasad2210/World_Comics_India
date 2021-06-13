@@ -13,19 +13,21 @@ html{
   z-index: 10;
   width: 100%;
 }
-
-
-.intro {
-
-  background-image: url('../images/cover1.gif');
-
-  margin-top: 10px;
+.header-text{
+  background-color: rgba(0, 0, 0, 0.7);
+  padding-left: 10%;
+}
+.intro_section{
   height: calc(100vh - 10px);
-  /* Center and scale the image nicely */
-  width: 100%;
+  background-image: url('../images/cover1.gif');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  margin-top: 10px;
+  width: 100%;
+}
+.navbar-dark{
+  background-color: rgba(0, 0, 0, 0.7) !important; 
 }
 
 .section-name {
@@ -39,7 +41,7 @@ html{
 }
 
 .nav-title-div {
-  display: none;
+  visibility: hidden;
   font-size: 175%;
   font-weight: 140%;
 }
@@ -76,7 +78,7 @@ html{
 
 .sticky-wrapper {
   position: sticky;
-  top: 60px;
+  top: 69px;
   width: 100%;
   overflow: hidden;
 }
@@ -88,7 +90,7 @@ html{
 }
 
 .horizontal-img {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 69px);
   z-index: 10;
 }
 .horizontal-div {
