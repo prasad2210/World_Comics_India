@@ -110,7 +110,7 @@ html{
   top: 0%;
   position: absolute;
   z-index: 20;
-
+  /* font-family: ; */
   left: 20%;
   width: 60%;
   top: 30%;
@@ -124,27 +124,27 @@ html{
   width: 21%;
 }
 .bubble3 {
-  left: 60%;
-  width: 18%;
-  top: 10%;
+  left: 57%;
+  width: 21%;
+  top: 0%;
 }
 .bubble4 {
   left: 9%;
   width: 28%;
 }
 .bubble5 {
-  left: 49%;
-  top: 14%;
-  width: 16%;
+  left: 50%;
+  top: 18%;
+  width: 13%;
 }
 .bubble6 {
   left: 81%;
   width: 21%;
 }
 .bubble7 {
-  left: 37%;
+  left: 30%;
   width: 23%;
-  top: 7%;
+  top: 3%;
 }
 .bubble8 {
   left: 86%;
@@ -152,8 +152,9 @@ html{
   top: 12%;
 }
 .bubble9 {
-  left: 11%;
-  width: 18%;
+  left: 17%;
+  width: 12%;
+  top: 8%;
 }
 .bubble10 {
   left: 61%;
@@ -164,8 +165,8 @@ html{
   width: 23%;
 }
 .bubble12 {
-  left: 76%;
-  width: 20%;
+  left: 47%;
+  width: 17%;
   opacity: 1 !important;
 }
 
@@ -184,6 +185,7 @@ html{
   left: 16%;
   width: 69%;
   top: 17%;
+  font-size: 130% !important;
 }
 .bubble3 p {
   left: 20%;
@@ -191,14 +193,15 @@ html{
   top: 25%;
 }
 .bubble4 p {
-  left: 16%;
-  width: 73%;
-  top: 19%;
+  left: 13%;
+  width: 76%;
+  top: 25%;
+  font-size: 130%;
 }
 .bubble5 p {
-  left: 20%;
-  width: 70%;
-  top: 44%;
+  left: 28%;
+  width: 54%;
+  top: 36%;
 }
 .bubble6 p {
   left: 27%;
@@ -212,13 +215,13 @@ html{
 }
 .bubble8 p {
   left: 25%;
-  width: 58%;
-  top: 47%;
+  width: 52%;
+  top: 37%;
 }
 .bubble9 p {
   left: 7%;
   width: 86%;
-  top: 30%;
+  top: 24%;
 }
 .bubble10 p {
   left: 23%;
@@ -231,9 +234,19 @@ html{
   top: 25%;
 }
 .bubble12 p {
-  left: 25%;
-  width: 60%;
-  top: 25%;
+  left: 20%;
+  width: 66%;
+  top: 21%;
+}
+.comics-heading{
+  padding-top: 10%;
+  padding-left: 12%;
+  padding-bottom: 2%;
+}
+.insta-heading{
+  padding-top: 10%;
+  padding-left: 12%;
+  padding-bottom: 2%; 
 }
 
 .comics {

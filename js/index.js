@@ -59,10 +59,10 @@ function fadeinOut() {
 
     for (let i = 0; i <= 10; i++) {
       if (scrolldist >= a[i] && scrolldist <= (a[i] + b[i]) / 2) {
-        $(".bubble"+(i+1)).css("opacity", (2 * 1.25* (scrolldist - a[i])) / (b[i] - a[i]));
+        $(".bubble"+(i+1)).css("opacity", (2 * .9* (scrolldist - a[i])) / (b[i] - a[i]));
         // console.log((scrolldist-a) / (b-a));
       } else if (scrolldist > (a[i] + b[i]) / 2 && scrolldist <= b[i]) {
-        $(".bubble"+(i+1)).css("opacity", (2 * 1.25 * (scrolldist - b[i])) / (a[i] - b[i]));
+        $(".bubble"+(i+1)).css("opacity", (2 * .9 * (scrolldist - b[i])) / (a[i] - b[i]));
       }
     }
   }
