@@ -29,7 +29,7 @@ function calcHeight() {
   console.log(
     windowWidth + " " + horLength + " " + distFromTop + " " + scrollDistance
   );
-  for (let i = 0; i <= 10; i++) {
+  for (let i = 0; i <= 11; i++) {
     a[i] =
       $(".bubble" + (i + 1)).offset().left + distFromTop + 200 - windowWidth;
     b[i] = a[i] + windowWidth;
@@ -57,7 +57,7 @@ function fadeinOut() {
   if(windowWidth >=991){
     var scrolldist = window.pageYOffset;
 
-    for (let i = 0; i <= 10; i++) {
+    for (let i = 0; i <= 11; i++) {
       if (scrolldist >= a[i] && scrolldist <= (a[i] + b[i]) / 2) {
         $(".bubble"+(i+1)).css("opacity", (2 * .9* (scrolldist - a[i])) / (b[i] - a[i]));
         // console.log((scrolldist-a) / (b-a));
