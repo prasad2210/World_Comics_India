@@ -5,11 +5,19 @@ window.addEventListener("scroll", function () {
   if (window.pageYOffset > 130) {
     // nav.classList.remove("navbar-dark");
     nav.classList.add("bg-dark");
-    $(".nav-title-div").css("visibility", "visible");
+    $(".nav-title-div").css("font-size", "150%");
+    $(".nav-img").attr("width", "40");
+    $(".nav-img").attr("height", "40");
+
+
   } else {
     nav.classList.remove("bg-dark");
     // nav.classList.add("navbar-dark");
-    $(".nav-title-div").css("visibility", "hidden");
+    $(".nav-title-div").css("font-size", "200%");
+    $(".nav-img").attr("width", "60");
+    $(".nav-img").attr("height", "60");
+
+    // $(".nav-title-div").css("visibility", "hidden");
   }
 });
 
@@ -26,9 +34,6 @@ function calcHeight() {
   document.querySelector(".horizontal-section").style.height =
     horLength + verticalDist + 200 - windowWidth + "px";
 
-  console.log(
-    windowWidth + " " + horLength + " " + distFromTop + " " + scrollDistance
-  );
   for (let i = 0; i <= 11; i++) {
     a[i] =
       $(".bubble" + (i + 1)).offset().left + distFromTop + 200 - windowWidth;
