@@ -14,8 +14,8 @@ window.addEventListener("scroll", function () {
     nav.classList.remove("bg-dark");
     // nav.classList.add("navbar-dark");
     $(".nav-title-div").css("font-size", "200%");
-    $(".nav-img").attr("width", "60");
-    $(".nav-img").attr("height", "60");
+    $(".nav-img").attr("width", "80");
+    $(".nav-img").attr("height", "80");
 
     // $(".nav-title-div").css("visibility", "hidden");
   }

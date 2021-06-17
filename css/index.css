@@ -261,29 +261,42 @@ html{
   width: 66%;
   top: 21%;
 }
-.comics-heading {
+
+.edu{
   padding-top: 10%;
-  padding-left: 12%;
+  padding-bottom: 10%;
+  background-color: #313131;
+}
+.edu-heading{
+  padding-left: 3%;
   padding-bottom: 2%;
 }
-.insta-heading {
-  padding-top: 10%;
-  padding-left: 12%;
-  padding-bottom: 2%;
+
+.edu-img{
+  border-radius: 10%;
+}
+
+.comics-heading {
+  padding-left: 3%;
+  padding-bottom: 5%;
 }
 
 .comics {
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-top: 5%;
+  padding-bottom: 10%;
+  background-color: #A5A5A5;
 }
 
 .comic-img-div {
-  /* height: 100%; */
-  /* height: calc(80vh - 69px); */
+  padding-left: 5%;
+  padding-right: 5%;
+  border-radius: 5%;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background-color: white;
+
 }
 
 .comic-img {
@@ -299,19 +312,50 @@ html{
   z-index: 2;
   opacity: 1;
   box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5);
+  border-radius: 5%;
+
+}
+
+.posts{
+  background-color: #313131;
+  padding-top: 5%;
+  padding-bottom: 10%;
+}
+
+.insta-heading {
+  padding-left: 6%;
+  padding-bottom: 2%;
 }
 
 .img-insta {
   display: block;
   width: 80%;
+  border-radius: 10%;
   height: auto;
   margin: auto;
-  box-shadow: rgba(0, 0, 0) 4px 4px 15px;
+  box-shadow: rgb(61, 51, 51) 4px 4px 15px;
+}
+
+.audio{
+  background-color: #A5A5A5;
+  padding-top: 5%;
+  padding-bottom: 10%;
+}
+.audio-heading{
+  padding-left: 3%;
+  padding-bottom: 5%;
 }
 
 .playpause img {
-  width: 18vh;
+  margin: 0 35%;
+  width: 30%;
 }
+.playpause{
+  padding: 10%;
+  margin: 0 10%;
+  border-radius: 5%;
+}
+
 
 footer {
   background-color: #151414;
@@ -323,19 +367,30 @@ footer {
   background-color: #202020;
 
   width: 90%;
-  margin: 1% 5% 1% 5%;
-  padding: 1% 10% 1% 10%;
+  margin: 5% 8% 5% 8%;
 }
 
-.footer-logo p {
-  font-size: 120%;
-  text-align: left !important;
+.footer-logo img{
+  padding: 3%;
+}
+.link-heading{
+  width: 90%;
+  margin: 0 auto;
+}
+.links{
+  padding: 10%;
+  margin: 1% 1% 1% 1%;
 }
 
-.footer-logo h2 {
-  text-align: left !important;
+.link-lists{
+  font-size: 130%;
+  
 }
 
+.link-lists ul{
+  list-style-type: none;
+  position: absolute;
+}
 
 .icons ul {
   text-align: left !important;
@@ -375,18 +430,3 @@ footer {
   background-color: #b7242a;
 }
 
-.contact-us{
-  width: 80%;
-  margin: 1% 10% 1% 10%;
-}
-
-
-.contact-us ul {
-  text-align: left !important;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-.contact-us li a{
-  font-size: 150%;
-}
