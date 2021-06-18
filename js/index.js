@@ -1,33 +1,40 @@
 // console.log("sdfsg");
 
-
 window.addEventListener("load", function () {
   const loader = document.querySelector(".loader");
   loader.className += " hidden"; // class "loader hidden"
-  const navbar = this.document.querySelector(".navbar");
-  navbar.className += " fixed-top";
-});
+  this.setTimeout(function () {
+    const navbar = this.document.querySelector(".navbar");
 
+    navbar.className += " fixed-top";
+    if (window.innerWidth < 991) {
+      $(".nav-img").attr("width", "40");
+      $(".nav-img").attr("height", "40");
+    }
+  }, 500);
+});
 
 let nav = document.querySelector("nav");
 
 window.addEventListener("scroll", function () {
-  if (window.pageYOffset > 130) {
-    // nav.classList.remove("navbar-dark");
-    nav.classList.add("bg-dark");
-    $(".nav-title-div").css("font-size", "150%");
+  if (window.innerWidth < 991) {
     $(".nav-img").attr("width", "40");
     $(".nav-img").attr("height", "40");
-
-
   } else {
-    nav.classList.remove("bg-dark");
-    // nav.classList.add("navbar-dark");
-    $(".nav-title-div").css("font-size", "200%");
-    $(".nav-img").attr("width", "80");
-    $(".nav-img").attr("height", "80");
-
-    // $(".nav-title-div").css("visibility", "hidden");
+    if (window.pageYOffset > 130) {
+      // nav.classList.remove("navbar-dark");
+      nav.classList.add("bg-dark");
+      $(".nav-title-div").css("font-size", "150%");
+      $(".nav-img").attr("width", "40");
+      $(".nav-img").attr("height", "40");
+    } else {
+      nav.classList.remove("bg-dark");
+      // nav.classList.add("navbar-dark");
+      $(".nav-title-div").css("font-size", "200%");
+      $(".nav-img").attr("width", "80");
+      $(".nav-img").attr("height", "80");
+      // $(".nav-title-div").css("visibility", "hidden");
+    }
   }
 });
 
@@ -69,19 +76,24 @@ window.onscroll = function () {
 function fadeinOut() {
   // console.log("a==>",a);
 
-  if(windowWidth >=991){
+  if (windowWidth >= 991) {
     var scrolldist = window.pageYOffset;
 
     for (let i = 0; i <= 11; i++) {
       if (scrolldist >= a[i] && scrolldist <= (a[i] + b[i]) / 2) {
-        $(".bubble"+(i+1)).css("opacity", (2 * .9* (scrolldist - a[i])) / (b[i] - a[i]));
+        $(".bubble" + (i + 1)).css(
+          "opacity",
+          (2 * 0.9 * (scrolldist - a[i])) / (b[i] - a[i])
+        );
         // console.log((scrolldist-a) / (b-a));
       } else if (scrolldist > (a[i] + b[i]) / 2 && scrolldist <= b[i]) {
-        $(".bubble"+(i+1)).css("opacity", (2 * .9 * (scrolldist - b[i])) / (a[i] - b[i]));
+        $(".bubble" + (i + 1)).css(
+          "opacity",
+          (2 * 0.9 * (scrolldist - b[i])) / (a[i] - b[i])
+        );
       }
     }
   }
-  
 
   // if (scrolldist >= a && scrolldist <= (a + b) / 2) {
   //   $(".bubble1").css("opacity", (2 * (scrolldist - a)) / (b - a));
