@@ -1,4 +1,14 @@
 // console.log("sdfsg");
+
+
+window.addEventListener("load", function () {
+  const loader = document.querySelector(".loader");
+  loader.className += " hidden"; // class "loader hidden"
+  const navbar = this.document.querySelector(".navbar");
+  navbar.className += " fixed-top";
+});
+
+
 let nav = document.querySelector("nav");
 
 window.addEventListener("scroll", function () {
