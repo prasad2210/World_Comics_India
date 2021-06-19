@@ -45,13 +45,14 @@ html{
 }
 
 .header-text h2{
-  font-size: 290%;
+  font-size: 200%;
   text-align: center;
-  padding-top: 20%;
+  padding-top: 3%;
 }
 
 .cover-img{
-  width: 100%;
+  margin: 3% 7%;
+  width: 86%;
 }
 
 .intro_section {
@@ -62,8 +63,8 @@ html{
   /* background-position: center; */
   /* background-repeat: no-repeat; */
   /* background-size: cover; */
-  margin-top: 67px;
-  padding: 10% 0 5% 0;
+  margin-top: 106px;
+  /* padding: 10% 0 0% 0; */
   width: 100%;
 }
 
@@ -401,11 +402,17 @@ footer {
   /* padding: 3% 0 2% 0; */
 }
 
+.footer-div{
+padding-left: 5%;
+padding-right: 15%;
+}
+
 .footer-logo {
   background-color: #202020;
 
-  width: 90%;
-  margin: 5% 8% 5% 8%;
+  margin-top: 5%;
+  padding: 10%;
+  margin-bottom: 5%;
 }
 
 .footer-logo img{

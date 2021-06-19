@@ -3,15 +3,15 @@
 window.addEventListener("load", function () {
   const loader = document.querySelector(".loader");
   loader.className += " hidden"; // class "loader hidden"
-  this.setTimeout(function () {
-    const navbar = this.document.querySelector(".navbar");
+  // this.setTimeout(function () {
+    // const navbar = this.document.querySelector(".navbar");
 
-    navbar.className += " fixed-top";
+    // navbar.className += " ";
     if (window.innerWidth < 991) {
       $(".nav-img").attr("width", "40");
       $(".nav-img").attr("height", "40");
     }
-  }, 500);
+  // }, 500);
 });
 
 let nav = document.querySelector("nav");
