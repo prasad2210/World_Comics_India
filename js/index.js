@@ -46,14 +46,14 @@ function calcHeight() {
   horLength = document.querySelector(".element-wrapper").scrollWidth;
   verticalDist = $(".element-wrapper").innerHeight();
   distFromTop = document.querySelector(".horizontal-section").offsetTop;
-  scrollDistance = distFromTop + horLength - windowWidth;
+  scrollDistance = distFromTop + 4*horLength - 4*windowWidth;
   document.querySelector(".horizontal-section").style.height =
-    horLength + verticalDist + 200 - windowWidth + "px";
+    4*horLength + verticalDist + 200 - 4*windowWidth + "px";
 
   for (let i = 0; i <= 11; i++) {
     a[i] =
-      $(".bubble" + (i + 1)).offset().left + distFromTop + 200 - windowWidth;
-    b[i] = a[i] + windowWidth;
+      $(".bubble" + (i + 1)).offset().left*4 + distFromTop + 200 - 4*windowWidth;
+    b[i] = a[i] + 4*windowWidth;
   }
 }
 window.onscroll = function () {
@@ -61,7 +61,7 @@ window.onscroll = function () {
 
   if (scrollTop >= distFromTop && scrollTop <= scrollDistance) {
     document.querySelector(".element-wrapper").style.transform =
-      "translateX(-" + (scrollTop - distFromTop) + "px)";
+      "translateX(-" + (scrollTop - distFromTop)/4 + "px)";
   } else if (scrollTop < distFromTop) {
     document.querySelector(".element-wrapper").style.transform =
       "translateX(" + 0 + "px)";
@@ -79,13 +79,13 @@ function fadeinOut() {
     var scrolldist = window.pageYOffset;
 
     for (let i = 0; i <= 11; i++) {
-      if (scrolldist >= a[i] && scrolldist <= (a[i] + b[i]) / 2) {
+      if (scrolldist >= a[i] && scrolldist <= (a[i] + b[i])/2) {
         $(".bubble" + (i + 1)).css(
           "opacity",
           (2 * 0.9 * (scrolldist - a[i])) / (b[i] - a[i])
         );
         // console.log((scrolldist-a) / (b-a));
-      } else if (scrolldist > (a[i] + b[i]) / 2 && scrolldist <= b[i]) {
+      } else if (scrolldist > (a[i] + b[i])/2  && scrolldist <= b[i]) {
         $(".bubble" + (i + 1)).css(
           "opacity",
           (2 * 0.9 * (scrolldist - b[i])) / (a[i] - b[i])
