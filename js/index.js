@@ -48,11 +48,11 @@ function calcHeight() {
   distFromTop = document.querySelector(".horizontal-section").offsetTop;
   scrollDistance = distFromTop + 4*horLength - 4*windowWidth;
   document.querySelector(".horizontal-section").style.height =
-    4*horLength + verticalDist + 200 - 4*windowWidth + "px";
+    4*horLength + verticalDist + 270 - 4*windowWidth + "px";
 
   for (let i = 0; i <= 11; i++) {
     a[i] =
-      $(".bubble" + (i + 1)).offset().left*4 + distFromTop + 200 - 4*windowWidth;
+      $(".bubble" + (i + 1)).offset().left*4 + distFromTop + 270 - 4*windowWidth;
     b[i] = a[i] + 4*windowWidth;
   }
 }
@@ -84,12 +84,15 @@ function fadeinOut() {
           "opacity",
           (2 * 0.9 * (scrolldist - a[i])) / (b[i] - a[i])
         );
+        // console.log((2 * 0.9 * (scrolldist - a[i])) / (b[i] - a[i]));
         // console.log((scrolldist-a) / (b-a));
       } else if (scrolldist > (a[i] + b[i])/2  && scrolldist <= b[i]) {
         $(".bubble" + (i + 1)).css(
           "opacity",
           (2 * 0.9 * (scrolldist - b[i])) / (a[i] - b[i])
         );
+        // console.log((2 * 0.9 * (scrolldist - b[i])) / (a[i] - b[i]));
+
       }
     }
   }

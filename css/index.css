@@ -132,7 +132,7 @@ html{
 
 .sticky-wrapper {
   position: sticky;
-  top: 100px;
+  top: 170px;
   width: 100%;
   overflow: hidden;
 }
@@ -144,7 +144,7 @@ html{
 }
 
 .horizontal-img {
-  height: calc(100vh - 200px);
+  height: calc(100vh - 270px);
   z-index: 10;
   margin-left: -1px;
 }
@@ -408,8 +408,8 @@ footer {
 }
 
 .footer-div{
-padding-left: 5%;
-padding-right: 15%;
+padding-left: 3%;
+padding-right: 3%;
 }
 
 .footer-logo {
