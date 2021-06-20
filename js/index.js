@@ -42,7 +42,7 @@ var a = [];
 var b = [];
 calcHeight();
 function calcHeight() {
-  windowWidth = window.innerWidth;
+  windowWidth = window.innerWidth*.8;
   horLength = document.querySelector(".element-wrapper").scrollWidth;
   verticalDist = $(".element-wrapper").innerHeight();
   distFromTop = document.querySelector(".horizontal-section").offsetTop;

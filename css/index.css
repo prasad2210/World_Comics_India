@@ -124,6 +124,11 @@ html{
 .horizontal-section {
   background-color: white;
 }
+.horizontal-container{
+  padding-left: 10%;
+  padding-right: 10%;
+  /* width: 80%; */
+}
 
 .sticky-wrapper {
   position: sticky;
