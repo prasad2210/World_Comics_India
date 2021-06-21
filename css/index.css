@@ -121,13 +121,12 @@ html{
   border-top: 3px white solid;
 }
 
+.hr-black {
+  border-top: 3px #313131 solid;
+}
+
 .horizontal-section {
   background-color: white;
-}
-.horizontal-container{
-  padding-left: 10%;
-  padding-right: 10%;
-  /* width: 80%; */
 }
 
 .sticky-wrapper {
@@ -305,9 +304,9 @@ html{
 }
 
 .edu{
-  padding-top: 10%;
-  padding-bottom: 10%;
-  background-color: #313131;
+  padding-top: 8%;
+  padding-bottom: 8%;
+  background-color: #A5A5A5;
 }
 .edu-heading{
   padding-left: 3%;
@@ -383,7 +382,7 @@ html{
 .audio{
   background-color: #A5A5A5;
   padding-top: 5%;
-  padding-bottom: 10%;
+  /* padding-bottom: 10%; */
 }
 .audio-heading{
   padding-left: 3%;
@@ -427,9 +426,14 @@ padding-right: 3%;
   width: 90%;
   margin: 0 auto;
 }
+
+.subscribe{
+  padding: 10% 15%;
+}
+
 .links{
-  padding: 10%;
-  margin: 1% 1% 1% 1%;
+  padding-top: 3%;
+  padding-left: 5%;
 }
 
 .link-lists{
@@ -442,11 +446,12 @@ padding-right: 3%;
   position: absolute;
 }
 
-.icons ul {
+.links ul {
   text-align: left !important;
   list-style-type: none;
-  padding: 0;
-  margin: 0;
+  font-size: 150%;
+  /* padding: 0;
+  margin: 0; */
 }
 .icons li {
   display: inline-block;

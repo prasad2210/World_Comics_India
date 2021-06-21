@@ -42,18 +42,18 @@ var a = [];
 var b = [];
 calcHeight();
 function calcHeight() {
-  windowWidth = window.innerWidth*.8;
+  windowWidth = window.innerWidth;
   horLength = document.querySelector(".element-wrapper").scrollWidth;
   verticalDist = $(".element-wrapper").innerHeight();
   distFromTop = document.querySelector(".horizontal-section").offsetTop;
-  scrollDistance = distFromTop + 4*horLength - 4*windowWidth;
+  scrollDistance = distFromTop + 2*horLength - 2*windowWidth;
   document.querySelector(".horizontal-section").style.height =
-    4*horLength + verticalDist + 270 - 4*windowWidth + "px";
+    2*horLength + verticalDist + 270 - 2*windowWidth + "px";
 
   for (let i = 0; i <= 11; i++) {
     a[i] =
-      $(".bubble" + (i + 1)).offset().left*4 + distFromTop + 270 - 4*windowWidth;
-    b[i] = a[i] + 4*windowWidth;
+      $(".bubble" + (i + 1)).offset().left*2 + distFromTop + 270 - 2*windowWidth;
+    b[i] = a[i] + 2*windowWidth;
   }
 }
 window.onscroll = function () {
@@ -61,7 +61,7 @@ window.onscroll = function () {
 
   if (scrollTop >= distFromTop && scrollTop <= scrollDistance) {
     document.querySelector(".element-wrapper").style.transform =
-      "translateX(-" + (scrollTop - distFromTop)/4 + "px)";
+      "translateX(-" + (scrollTop - distFromTop)/2 + "px)";
   } else if (scrollTop < distFromTop) {
     document.querySelector(".element-wrapper").style.transform =
       "translateX(" + 0 + "px)";
