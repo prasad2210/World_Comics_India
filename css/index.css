@@ -211,7 +211,7 @@ html{
 }
 .bubble8 {
   left: 86%;
-  width: 16%;
+  width: 17%;
   top: 12%;
 }
 .bubble9 {
@@ -246,10 +246,10 @@ html{
   top: 16%;
 }
 .bubble2 p {
-  left: 16%;
-  width: 69%;
-  top: 17%;
-  /* font-size: 130% !important; */
+  left: 17%;
+  width: 70%;
+  top: 16%;
+  font-size: 95% !important;
 }
 .bubble3 p {
   left: 20%;
@@ -260,7 +260,7 @@ html{
   left: 13%;
   width: 76%;
   top: 25%;
-  font-size: 130%;
+  /* font-size: 130%; */
 }
 .bubble5 p {
   left: 28%;
@@ -273,14 +273,14 @@ html{
   top: 25%;
 }
 .bubble7 p {
-  left: 16%;
+  left: 17%;
   width: 73%;
   top: 28%;
 }
 .bubble8 p {
-  left: 25%;
-  width: 52%;
-  top: 37%;
+  left: 21%;
+  width: 65%;
+  top: 40%;
 }
 .bubble9 p {
   left: 7%;
@@ -290,7 +290,7 @@ html{
 .bubble10 p {
   left: 23%;
   width: 60%;
-  top: 28%;
+  top: 33%;
 }
 .bubble11 p {
   left: 10%;
@@ -414,8 +414,8 @@ padding-right: 3%;
 .footer-logo {
   background-color: #202020;
 
-  margin-top: 5%;
-  padding: 10%;
+  margin-top: 15%;
+  padding: 20% 10%;
   margin-bottom: 5%;
 }
 
@@ -428,7 +428,8 @@ padding-right: 3%;
 }
 
 .subscribe{
-  padding: 10% 15%;
+  padding: 10% 5%;
+  margin-top: 5%;
 }
 
 .links{
@@ -436,8 +437,19 @@ padding-right: 3%;
   padding-left: 5%;
 }
 
+.social-media{
+  margin-top: 3%;
+}
+
+.social-media i{
+  font-size: 170%;
+  padding-top: 4%;
+}
+.social-media p {
+  font-size: 120%;
+}
 .link-lists{
-  font-size: 130%;
+  font-size: 100%;
   
 }
 
@@ -449,7 +461,7 @@ padding-right: 3%;
 .links ul {
   text-align: left !important;
   list-style-type: none;
-  font-size: 150%;
+  font-size: 120%;
   /* padding: 0;
   margin: 0; */
 }
