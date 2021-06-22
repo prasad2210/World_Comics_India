@@ -10,6 +10,7 @@ window.addEventListener("load", function () {
       $(".nav-img").attr("width", "40");
       $(".nav-img").attr("height", "40");
     }
+    calcHeight();
   // }, 500);
 });
 
@@ -40,7 +41,6 @@ window.addEventListener("scroll", function () {
 var scrollDistance, distFromTop, windowWidth, horLength, verticalDist;
 var a = [];
 var b = [];
-calcHeight();
 function calcHeight() {
   windowWidth = window.innerWidth;
   horLength = document.querySelector(".element-wrapper").scrollWidth;
