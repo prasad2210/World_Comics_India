@@ -221,7 +221,7 @@ html{
 }
 .bubble10 {
   left: 61%;
-  width: 25%;
+  width: 26%;
 }
 .bubble11 {
   left: 17%;
@@ -260,7 +260,7 @@ html{
   left: 13%;
   width: 76%;
   top: 25%;
-  /* font-size: 130%; */
+  font-size: 103%;
 }
 .bubble5 p {
   left: 28%;
@@ -288,9 +288,9 @@ html{
   top: 24%;
 }
 .bubble10 p {
-  left: 23%;
-  width: 60%;
-  top: 33%;
+  left: 19%;
+  width: 69%;
+  top: 34%;
 }
 .bubble11 p {
   left: 10%;
@@ -440,13 +440,19 @@ padding-right: 3%;
 .social-media{
   margin-top: 3%;
 }
+@media (max-width: 575px) {
+  .social-media, .links li, .subscribe {
+    text-align: center;
+  }  
+}
 
-.social-media i{
-  font-size: 170%;
-  padding-top: 4%;
+.social-media p i{
+  font-size: 130%;
+  padding-top: 6%;
 }
 .social-media p {
   font-size: 120%;
+  margin-bottom: 0;
 }
 .link-lists{
   font-size: 100%;
@@ -465,8 +471,8 @@ padding-right: 3%;
   /* padding: 0;
   margin: 0; */
 }
-.icons li {
-  display: inline-block;
+.links li {
+  margin-bottom: 5%;
 }
 
 .icons a i {
