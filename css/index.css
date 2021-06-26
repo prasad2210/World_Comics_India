@@ -21,15 +21,16 @@ html{
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: white;
+  background: #313131;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* animation: zoomIn 2s; */
+
 }
 
 .loader > img {
-  width: 10%;
-  margin-right: 3%;
+  width: 20%;
 }
 
 .loader.hidden {
@@ -43,6 +44,23 @@ html{
       visibility: hidden;
   }
 }
+
+
+.navbar-dark {
+  background-color: rgb(43, 41, 41) !important;
+}
+
+.nav-img {
+  position: relative;
+  top: 1px;
+  margin-right: 5%;
+}
+
+.nav-title-div {
+  visibility: visible;
+  font-size: 200%;
+}
+
 
 .header-text h2{
   font-size: 200%;
@@ -69,41 +87,6 @@ html{
 }
 
 
-.navbar-dark {
-  background-color: rgb(43, 41, 41) !important;
-}
-
-.nav-img {
-  position: relative;
-  top: 1px;
-  margin-right: 5%;
-}
-
-.nav-title-div {
-  visibility: visible;
-  font-size: 200%;
-}
-
-
-.header-imgText{
-  position: relative;
-  top: 12%;
-}
-
-.header-imgText img{
-  width: 16%;
-  padding-left: 2%;
-}
-
-.header-imgText h2{
-  position: relative;
-  top: 23%;
-}
-
-
-.w-100 {
-  width: 100% !important;
-}
 
 .whitePage{
   margin-top: 5%;
@@ -287,6 +270,7 @@ html{
   width: 86%;
   top: 24%;
 }
+
 .bubble10 p {
   left: 19%;
   width: 69%;
@@ -359,7 +343,7 @@ html{
 
 }
 
-.posts{
+.posts{ 
   background-color: #313131;
   padding-top: 5%;
   padding-bottom: 10%;
@@ -372,7 +356,7 @@ html{
 
 .img-insta {
   display: block;
-  width: 80%;
+  /* width: 80%; */
   border-radius: 10%;
   height: auto;
   margin: auto;
@@ -435,6 +419,12 @@ padding-right: 3%;
 .links{
   padding-top: 3%;
   padding-left: 5%;
+}
+.links a{
+  color: white;
+}
+.links a:hover{
+  text-decoration: none;
 }
 
 .social-media{

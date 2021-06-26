@@ -1,0 +1,150 @@
+
+#header {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+  }
+
+  main{
+    padding-top: 105px;
+    background-color: #313131;
+  }
+  
+  .loader {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #313131;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader > img {
+    width: 20%;
+  }
+  
+  .loader.hidden {
+    animation: fadeOut 1s;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes fadeOut {
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+  }
+  
+  
+.navbar-dark {
+    background-color: rgb(43, 41, 41) !important;
+  }
+  
+  .nav-img {
+    position: relative;
+    top: 1px;
+    margin-right: 5%;
+  }
+  
+  .nav-title-div {
+    visibility: visible;
+    font-size: 200%;
+  }
+
+  .texts{
+    padding-bottom: 5%;
+  }
+
+  .about{
+    padding: 5%;
+  }
+  
+
+
+  footer {
+    background-color: #151414;
+    height: 100%;
+    /* padding: 3% 0 2% 0; */
+  }
+  
+  .footer-div{
+  padding-left: 3%;
+  padding-right: 3%;
+  }
+  
+  .footer-logo {
+    background-color: #202020;
+  
+    margin-top: 15%;
+    padding: 20% 10%;
+    margin-bottom: 5%;
+  }
+  
+  .footer-logo img{
+    padding: 3%;
+  }
+  .link-heading{
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  .subscribe{
+    padding: 10% 5%;
+    margin-top: 5%;
+  }
+  
+  .links{
+    padding-top: 3%;
+    padding-left: 5%;
+  }
+  
+.links a{
+  color: white;
+}
+.links a:hover{
+  text-decoration: none;
+}
+
+  
+  .social-media{
+    margin-top: 3%;
+  }
+  @media (max-width: 575px) {
+    .social-media, .links li, .subscribe {
+      text-align: center;
+    }  
+  }
+  
+  .social-media p i{
+    font-size: 130%;
+    padding-top: 6%;
+  }
+  .social-media p {
+    font-size: 120%;
+    margin-bottom: 0;
+  }
+  .link-lists{
+    font-size: 100%;
+    
+  }
+  
+  .link-lists ul{
+    list-style-type: none;
+    position: absolute;
+  }
+  
+  .links ul {
+    text-align: left !important;
+    list-style-type: none;
+    font-size: 120%;
+    /* padding: 0;
+    margin: 0; */
+  }
+  .links li {
+    margin-bottom: 5%;
+  }
+  
