@@ -91,7 +91,7 @@
 
   
 @media (max-width: 991px) {
-  .edu2, .edu4, .edu6 {
+  .edu2 .edu-img, .edu4 .edu-img, .edu6 .edu-img {
     text-align: center;
   }
 }
