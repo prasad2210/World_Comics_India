@@ -143,3 +143,7 @@ document.getElementById("playpause3").addEventListener("click", function () {
     audio.play();
   }
 });
+
+$('.carousel').carousel({
+  interval: 5000
+})

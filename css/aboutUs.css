@@ -7,7 +7,7 @@
 
   main{
     padding-top: 105px;
-    background-color: #313131;
+    /* background-color: #313131; */
   }
   
   .loader {
@@ -109,6 +109,13 @@
   text-decoration: none;
 }
 
+.hr-white {
+  border-top: 3px white solid;
+}
+
+.hr-black {
+  border-top: 3px #313131 solid;
+}
   
   .social-media{
     margin-top: 3%;
