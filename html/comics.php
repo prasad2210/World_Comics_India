@@ -1,3 +1,14 @@
+<?php
+  include_once '../_connect_dbs.php';
+
+  $query = 'SELECT * FROM `comics` WHERE `id` < 99999999999 LIMIT 1';
+  $query_stmt = $db_app->prepare($query);
+  $query_stmt->execute();
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,6 +95,27 @@
 
   <!-- main content -->
   <main>
+    
+  <div class="container-fluid">
+      <div class="row p-4 text-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2>
+                Knowledge Hub
+              </h2>
+              <p>
+                The internet is vast and it is easy to get lost while trying to learn about the digital
+                space. Therefore we have curated links that you could use to further your knowledge and stay Cyber
+                Salamat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </main>
   <!-- main content -->
 
