@@ -66,6 +66,20 @@
     margin: 5% 0;
   }
 
+  
+  .social_share a i {
+    font-size: 150%;
+
+  }
+
+  .social_share a{
+    transition: .5s ;
+
+  }
+  .social_share a:hover{
+    color: #313131;
+  }
+
   .mores h3 {
     text-align:center;
     display: grid;

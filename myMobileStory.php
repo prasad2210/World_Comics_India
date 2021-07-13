@@ -1,29 +1,41 @@
 <?php
 
-  if(isset($_GET['id']) && $_GET['id'] !=''){
-    include_once './_connect_dbs.php';
+  if (isset($_GET['id']) && $_GET['id'] !='') {
+      include_once './_connect_dbs.php';
 
       $id = $_GET['id'];
       $query = 'SELECT * FROM `mobile_story` WHERE `id` = :id';
       $query_stmt = $db_app->prepare($query);
       $query_stmt->execute(['id'=>$id]);
 
-      if($query_stmt->rowCount() == 1){
-        $result = $query_stmt->fetchAll();
+      if ($query_stmt->rowCount() == 1) {
+          $result = $query_stmt->fetchAll();
         
-        $path = '../drag_drop/'.$result[0]['path'];
-        $html = '
-
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <div class="card" style="border:none !important;">
-            <img class="card-img-top" src="'.$path.'" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">'.$result[0]['name'].'</h5>
-              <p class="card-text">'.$result[0]['description'].'</p>
+          $path = '../drag_drop/'.$result[0]['path'];
+          $html = '
+          <div class="container">
+            <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-4" >
+                <div class="card" style="border:none !important; position:absolute; top:50%; transform:translate(0, -50%);">
+                  <div class="card-body">
+                    <h3 class="card-title" >'.$result[0]['name'].'</h3>
+                    <p class="card-text">'.$result[0]['description'].'</p>
+                  </div>
+              </div>
             </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+              <div class="card" style="border:none !important;">
+                <img class="card-img-top" src="'.$path.'" alt="Card image cap">
+                <div class="card-body">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
           </div>
         </div>
+
         ';
       }
       $mores = '
@@ -32,109 +44,159 @@
       </div>
     ';
 
-      $query = 'SELECT * FROM  `mobile_story` ORDER BY RAND() LIMIT 9';
+      $query = 'SELECT * FROM  `mobile_story` ORDER BY RAND() LIMIT 10';
       $query_stmt = $db_app->prepare($query);
       $query_stmt->execute();
 
-      $extra = '';
-      if($query_stmt->rowCount() > 0){
-        $result = $query_stmt->fetchAll();
-
-        foreach($result as $story){
-          
-          $path = '../drag_drop/'.$story['path'];
-          $id = $story['id'];
+      $extra = '<div class="col-md-1"></div>';
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
 
           $cnt = 1;
 
-          if($cnt <= 3){
-            $extra .= '
-            <div class="col-md-4 d-flex">
-              <div class="card" style="border:none !important;">
-                <img class="card-img-top" style="width:80%; margin:0 auto;" src="'.$path.'" alt="Card image cap">
+          foreach ($result as $story) {
+              $path = '../drag_drop/'.$story['path'];
+              $id = $story['id'];
+
+
+              if ($cnt <= 5) {
+                  $extra .= '
+            <div class="col-md-2 d-flex">
+              <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
                 <div class="card-body">
                   <a href="./myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%">READ MORE</a>
                 </div>
               </div>
             </div>
             ';
-            $cnt++;
-          }
-          else{
-            $extra .= '
+                  $cnt++;
+              } else {
+                echo 'prasad';
+                  $extra .= '
+              <div class="col-md-1"></div>
               </div>
-              <div class="row  text-center py-4">
+              <div class="row d-flex text-center py-4">
+              <div class="col-md-1"></div>
             ';
 
-            $extra .= '
-            <div class="col-md-4 ">
-              <div class="card" style="border:none !important; ">
-                <img class="card-img-top" style="width:80%; margin:0 auto;" src="'.$path.'" alt="Card image cap">
+                  $extra .= '
+            <div class="col-md-2 ">
+              <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                <img class="card-img-top" style="height:80%;  margin:0 -5%;" src="'.$path.'" alt="Card image cap">
                 <div class="card-body">
                   <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%">READ MORE</a>
                 </div>
               </div>
             </div>
             ';
-            $cnt = 2;
+                  $cnt = 2;
+              }
           }
-        }
       }
-
-  }
-  else{
+  } else {
       include_once './_connect_dbs.php';
 
-      $query = 'SELECT * FROM `mobile_story` ORDER BY RAND() LIMIT 9';
+      $query = 'SELECT * FROM `mobile_story` ORDER BY RAND() LIMIT 10';
       $query_stmt = $db_app->prepare($query);
       $query_stmt->execute();
 
-      if($query_stmt->rowCount() > 0){
-        $result = $query_stmt->fetchAll();
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
         
-        $mores = '';
-        $extra = '';
-        $html = '';
-        $cnt = 1;
-        foreach($result as $story){
+          $mores = '';
+          $extra = '';
+          $html = '<div class="col-md-1"></div>';
+          $cnt = 1;
+        
+          foreach ($result as $story) {
+              $path = '../drag_drop/'.$story['path'];
+              $id = $story['id'];
 
-          $path = '../drag_drop/'.$story['path'];
-          $id = $story['id'];
-
-          if($cnt <= 3){
-            $html .= '
-            <div class="col-md-4 d-flex">
-              <div class="card" style="border:none !important;">
-                <img class="card-img-top" style="width:80%; margin:0 auto;" src="'.$path.'" alt="Card image cap">
+              if ($cnt <= 5) {
+                  $html .= '
+            <div class="col-md-2 d-flex">
+              <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                <img class="card-img-top" style="height:80%;  margin:0 -5%;" src="'.$path.'" alt="Card image cap">
                 <div class="card-body">
                   <a href="./myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%">READ MORE</a>
                 </div>
               </div>
             </div>
             ';
-            $cnt++;
-          }
-          else{
-            $html .= '
+                  $cnt++;
+              } else {
+                  $html .= '
+              <div class="col-md-1"></div>
               </div>
-              <div class="row  text-center py-4">
+              <div class="row d-flex text-center py-4">
+                <div class="col-md-1"></div>
             ';
 
-            $html .= '
-            <div class="col-md-4 ">
-              <div class="card" style="border:none !important; ">
-                <img class="card-img-top" style="width:80%; margin:0 auto;" src="'.$path.'" alt="Card image cap">
+                  $html .= '
+            <div class="col-md-2 ">
+              <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                <img class="card-img-top" style="height:80%;  " src="'.$path.'" alt="Card image cap">
                 <div class="card-body">
                   <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%">READ MORE</a>
                 </div>
               </div>
             </div>
             ';
-            $cnt = 2;
+                  $cnt = 2;
+              }
           }
-        }
       }
-  }    
+      
+
+      $htmlMap = '
+      
+        <div class="mapDiv text-center border" style="width: 30%; margin: 0 auto;">
+        <h3 class="card-title p-2">Sangli</h3>
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="card" style="padding: 0 12%;">
+                <img class="card-img-top" src="./images/comic1.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">By prasad Mandave</h5>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+            <div class="card " style="padding: 0 12%;">
+                <img class="card-img-top" src="./images/comic2.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">By prasad Mandave</h5>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+            <div class="card " style="padding: 0 12%;">
+                <img class="card-img-top" src="./images/comic3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">By prasad Mandave</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a class="carousel-control-prev "  href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next " href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        </div> 
+      ';
+  }
 ?>
 
 
@@ -233,7 +295,7 @@
                 voices of the masses.
 
               </p>
-              <div class="hr-black">
+              <div class="hr-black" style="width: 90%; margin: 0 auto;">
               </div>
             </div>
           </div>
@@ -241,23 +303,85 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="row text-center py-4">
+    <div class="container-fluid">
+      <div class="row text-center d-flex py-4">
 
-      <?php echo $html; ?>
+        <?php echo $html; ?>
 
       </div>
     </div>
 
     <?php echo $mores; ?>
 
-    
-    <div class="container">
+
+    <div class="container-fluid">
       <div class="row text-center py-4">
 
-      <?php echo $extra; ?>
+        <?php echo $extra; ?>
 
       </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="hr-black" style="width: 80%; margin: 0 auto;"></div>  
+      </div>
+    </div>
+<!-- 
+<div class="mapDiv text-center border" style="width: 30%; margin: 0 auto;">
+    <h3 class="card-title p-2">Sangli</h3>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="card" style="padding: 0 12%;">
+            <img class="card-img-top" src="./images/comic1.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">By prasad Mandave</h5>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+        <div class="card " style="padding: 0 12%;">
+            <img class="card-img-top" src="./images/comic2.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">By prasad Mandave</h5>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+        <div class="card " style="padding: 0 12%;">
+            <img class="card-img-top" src="./images/comic3.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">By prasad Mandave</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev "  href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next " href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+</div> -->
+
+
+
+<div id="try">
+
+</div>
+
+
+    <div class="container">
+      <div id="map"></div>
     </div>
 
 
@@ -394,16 +518,19 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
   <script src="./js/myMobileStory.js" type="text/javascript"></script>
+  
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap">
+  </script>
 </body>
 
 </html>

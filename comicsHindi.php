@@ -18,7 +18,24 @@ if(isset($_GET['id']) && $_GET['id'] !=''){
   
     $result = $query_stmt->fetchAll();
 
+    $cnt = 1;
     foreach($result as $images){
+        echo 1;
+        if($cnt == 1){
+          $comic .= '
+          <div class="row text-center">
+            <div class="col-md-12 text-center">
+              <div class="card" style="border:none !important; width:40%; margin:0 auto;">
+                <img class="card-img-top img-fluid" id="myImg" src="../drag_drop/'.$images['path'].'" alt="Card image cap">
+                <div class="card-body">
+                </div>
+              </div>
+            </div>
+          </div>
+          ';
+          $cnt++;
+        }
+        else{
           $comic .= '
           <div class="row text-center">
             <div class="col-md-12 text-center">
@@ -29,7 +46,8 @@ if(isset($_GET['id']) && $_GET['id'] !=''){
               </div>
             </div>
           </div>
-          ';      
+          ';
+        }      
     }
     $social_share = '
     
@@ -108,7 +126,7 @@ if(isset($_GET['id']) && $_GET['id'] !=''){
       foreach($result as $comics){
         $last_id = $comics['id'];
       //   echo $last_id;
-        $query = 'SELECT * FROM `image_path` WHERE `comic_id` = :last_id AND `lang` = "0" ORDER BY `id` LIMIT  1';
+        $query = 'SELECT * FROM `image_path` WHERE `comic_id` = :last_id ORDER BY `id` LIMIT  1';
         $query_stmt = $db_app->prepare($query);
         $query_stmt->execute(['last_id' => $last_id]);
       //   echo 77;
@@ -166,7 +184,7 @@ else{
   
   // echo 1;
 
-  $query = 'SELECT * FROM `comics` WHERE `id` < 99999999999 ORDER BY RAND()';
+  $query = 'SELECT * FROM `comics` WHERE `id` < 99999999999 AND `lang` = "0" ORDER BY RAND()';
   $query_stmt = $db_app->prepare($query);
   $query_stmt->execute();
   // echo 2;
@@ -331,6 +349,7 @@ else{
           <div class="row">
             <div class="col-md-12">
               <h2>
+                Comics
               </h2>
               <p>
                 Using comics as a visual learning aid, we deliver important information about the digital

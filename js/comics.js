@@ -36,3 +36,26 @@ window.addEventListener("scroll", function () {
     }
   }
 });
+
+const facebookBtn = document.querySelector(".facebook-btn");
+const twitterBtn = document.querySelector(".twitter-btn");
+const linkedinBtn = document.querySelector(".linkedin-btn");
+const whatsappBtn = document.querySelector(".whatsapp-btn");
+
+function init(){
+
+  let postUrl = document.location.href;
+  // let postUrl = 'http://cybersalamat.com/comics.php';
+  let postTitle = "Hii everyone, Please check this page. I found it funny";
+  
+  postUrl = encodeURI(postUrl);
+
+  console.log(postUrl);
+
+  facebookBtn.setAttribute("href", `https://www.facebook.com/sharer.php?u=${postUrl}`);
+  twitterBtn.setAttribute("href", `https://twitter.com/share?url=${postUrl}&text=${postTitle}&hashtags=cybersalamat,worldComicIndia,cyberSecurity`);
+  linkedinBtn.setAttribute("href", `https://www.linkedin.com/shareArticle?url=${postUrl}&title=${postTitle}&summary${postTitle}`);
+  whatsappBtn.setAttribute("href", `https://api.whatsapp.com/send?text=${postTitle} ${postUrl}`);
+
+}
+init();
