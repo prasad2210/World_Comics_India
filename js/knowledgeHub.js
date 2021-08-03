@@ -1,5 +1,36 @@
 new WOW().init();
 
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+function preventDefault(e) {
+  e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+// modern Chrome requires { passive: false } when adding event
+var supportsPassive = false;
+try {
+  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+    get: function () { supportsPassive = true; } 
+  }));
+} catch(e) {}
+
+var wheelOpt = supportsPassive ? { passive: false } : false;
+var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+
+window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+
+
+
 window.addEventListener("load", function () {
     const loader = document.querySelector(".loader");
     loader.className += " hidden"; // class "loader hidden"
@@ -12,6 +43,7 @@ window.addEventListener("load", function () {
       }
     //   calcHeight();
     // }, 500);
+
   });
   
   
@@ -40,3 +72,46 @@ window.addEventListener("scroll", function () {
 });
 
 
+let position = [];
+$(document).scrollTop(0);
+
+
+
+  for(let i = 0; i<6; i++){
+    position[i] = $('#edu'+(i+1)).offset().top;
+  }
+
+  
+  window.removeEventListener('DOMMouseScroll', preventDefault, false);
+  window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
+  window.removeEventListener('touchmove', preventDefault, wheelOpt);
+  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+
+
+
+function gotoDiv(e, val){
+  e.preventDefault();
+  // alert("hi");
+
+  // console.log(val);
+
+  let pos = position[val] - 173;
+  $(document).scrollTop(pos);
+}
+
+window.onscroll = function () {
+
+  var scrollTop = window.pageYOffset;
+  if(scrollTop >= (position[0] - 200) && scrollTop <= (position[5] + 0 ) ){
+    $('.navVertical').css('display', 'block');
+
+    let divide = (position[5] - position[4]);
+    let val = ((scrollTop - position[0])*50)/divide;
+
+    // console.log(val);
+    $('.line').css('height', val)
+
+    }else{
+      $('.navVertical').css('display', 'none');
+    }
+}

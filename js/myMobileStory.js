@@ -110,6 +110,7 @@ function initMap() {
 
     const infowindow = new google.maps.InfoWindow({
         content: contentString,
+        maxWidth: 450,
       });
     const marker = new google.maps.Marker({
         position: myLatLng,
@@ -120,4 +121,9 @@ function initMap() {
     marker.addListener("click", () => {
         infowindow.open(map, marker);
     });
+
+    infowindow.addListener('closeclick', ()=>{
+      map.setCenter( {lat: 23.215810381187584, lng: 77.39062126196221 });
+    });
+
   }

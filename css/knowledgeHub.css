@@ -1,4 +1,8 @@
+/* *{
+  scroll-behavior: smooth;
+} */
 
+html { scroll-behavior: smooth; }
 #header {
     position: absolute;
     z-index: 10;
@@ -50,12 +54,28 @@
     font-size: 200%;
   }
 
+  .hr-white {
+    border-top: 3px white solid;
+  }
+  
+  .hr-black {
+    border-top: 3px #313131 solid;
+  }
+  
+
   main{
     margin-top: 105px;
+  transition: all 1s ease-in-out;
+
   }
 
   a{
     color: white;
+  }
+
+  a:hover{
+    color: white;
+    text-decoration: none;
   }
 
   div.sticky {
@@ -66,6 +86,66 @@
     /* background-color: #cae8ca;
     border: 2px solid #4CAF50; */
   }
+
+  
+  .comicRow{
+    margin: 5% 0;
+  }
+
+  .navVertical{
+    display: none;
+  }
+  
+.custom-nav{
+  position: fixed;
+  top:50%; left:5%;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+
+.custom-nav ul{
+  list-style: none;
+  padding:0; margin: 0;
+}
+
+.custom-nav ul .line{
+  position: absolute;
+  top: 25px;
+  left: 11px;
+  height: 0px;
+  width: 8px;
+  background: #ff0000;
+  border-radius: 50px;
+}
+
+.custom-nav ul li{
+  /* width: 200px; */
+  position: relative;
+  text-align: left;
+  padding-bottom: 20px;
+  display: flex;
+}
+
+.custom-nav ul li .dot{
+  display: block;
+  width: 30px;
+  /* padding: auto; */
+  height: 30px;
+  background-color: #313131;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  font-size: 120%;
+  font-weight: bolder;
+  cursor: pointer;
+}
+.custom-nav ul li span{
+  padding-top: 3px;
+  padding-left: 5px;
+  cursor: pointer;
+
+  /* opacity: 0; */
+}
 
   .edu{
     width: 100%;

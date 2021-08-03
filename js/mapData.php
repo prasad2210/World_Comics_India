@@ -25,7 +25,7 @@
 
                 $html = '
                         
-                <div class="mapDiv text-center border" style="width: 50%; margin: 0 auto;">
+                <div class="mapDiv text-center border" style="width: 90%; margin: 0 auto;">
                 <h3 class="card-title p-2">'.$city.'</h3>
 
                 <div id="city" class="carousel slide" data-ride="carousel">

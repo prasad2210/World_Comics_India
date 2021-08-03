@@ -67,6 +67,11 @@
     margin: 0 auto;
   }
 
+  /* div.infowindow {
+    max-height:650px;
+    overflow-y:auto;
+  } */
+
   .mores h3 {
     text-align:center;
     display: grid;
