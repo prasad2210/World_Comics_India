@@ -4,12 +4,16 @@
       include_once './_connect_dbs.php';
 
       $id = $_GET['id'];
+
+      // echo $id;
       $query = 'SELECT * FROM `mobile_story` WHERE `id` = :id';
       $query_stmt = $db_app->prepare($query);
       $query_stmt->execute(['id'=>$id]);
 
       if ($query_stmt->rowCount() == 1) {
           $result = $query_stmt->fetchAll();
+
+          // echo $result;
         
           $query = 'SELECT * FROM `mobile_story` ORDER BY RAND() LIMIT 2';
           $query_stmt = $db_app->prepare($query);
@@ -19,6 +23,9 @@
               $result1 = $query_stmt->fetchAll();
           
               $heading = '';
+              $htmlH = '';
+              $pagination = '';
+              $paginationH = '';
             
               $path = 'https://admin.cybersalamat.com/'.$result[0]['path'];
               $path1 = '';
@@ -27,38 +34,38 @@
                 ';    
               }
               
-              $html = '
+              $html .= '
               
-              
-            <div class="col-md-2 py-2 align-self-center">
-                <a href="./myMobileStory.php?id='.$result1[0]['id'].'"><button type="button"
-                        class="btn btn-primary">Previous</button></a>
-            </div>
-            <div class="col-md-4 align-self-center">
-                <div class="card text-center"
-                    style="border:none !important;">
+                  
+                <div class="col-md-2 py-2 align-self-center">
+                    <a href="./myMobileStory.php?id='.$result1[0]['id'].'"><button type="button"
+                            class="btn btn-primary">Previous</button></a>
+                </div>
+                <div class="col-md-4 align-self-center">
+                    <div class="card text-center"
+                        style="border:none !important;">
 
-                    '.$path1.'
+                        '.$path1.'
 
-                    <div class="card-body">
-                        <h3 class="card-title">'.$result[0]['name'].'</h3>
-                        <p class="card-text">'.$result[0]['description'].'</p>
+                        <div class="card-body">
+                            <h3 class="card-title">'.$result[0]['name'].'</h3>
+                            <p class="card-text">'.$result[0]['description'].'</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-4">
-                <div class="card" style="border:none !important;">
-                    <img class="card-img-top" src="'.$path.'"
-                        alt="Card image cap">
+                <div class="col-md-4">
+                    <div class="card" style="border:none !important;">
+                        <img class="card-img-top" src="'.$path.'"
+                            alt="Card image cap">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2 py-2 align-self-center">
+                <div class="col-md-2 py-2 align-self-center">
 
-                <a href="./myMobileStory.php?id='.$result1[1]['id'].'"><button type="button"
-                    class="btn btn-primary">Next</button></a>
-            </div>
-            ';
+                    <a href="./myMobileStory.php?id='.$result1[1]['id'].'"><button type="button"
+                        class="btn btn-primary">Next</button></a>
+                </div>
+                ';
           }
       }
       
@@ -120,7 +127,6 @@
   } 
   
   // starting page 
-  //========================================================================================================================================================
   else {
 
 
@@ -164,60 +170,1576 @@
   //========================================================================================================================================================
 
 
-  
-  
-      include_once './_connect_dbs.php';
-      
+  if(isset($_GET['page']) && $_GET['page'] != '' && isset($_GET['pageH']) && $_GET['pageH'] != ''){ 
 
-      $query = 'SELECT * FROM `mobile_story` ORDER BY RAND() LIMIT 20';
+    $page = $_GET['page'];
+    $pageH = $_GET['pageH'];
+      $start1 = ($page - 1)*10;
+
+      include_once './_connect_dbs.php';
+      $query = 'SELECT * FROM `mobile_story` ORDER BY `id` DESC';
       $query_stmt = $db_app->prepare($query);
       $query_stmt->execute();
 
       if ($query_stmt->rowCount() > 0) {
           $result = $query_stmt->fetchAll();
-        
-          
+
           $html = '<div class="col-md-1"></div>';
           $cnt = 1;
-          foreach ($result as $story) {
-              $path = 'https://admin.cybersalamat.com/'.$story['path'];
-              $id = $story['id'];
+          // foreach ($result as $know) {
+            for($i = $start1; $i<= min(($start1 + 9), count($result) - 1); $i++){
+
+              $path = 'https://admin.cybersalamat.com/'.$result[$i]['path'];
+              $id = $result[$i]['id'];
 
               if ($cnt <= 5) {
                   $html .= '
-            <div class="col-md-2 d-flex">
-              <div class="card" style="border:none !important; width:90%; margin:0 auto;">
-                <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
-                <div class="card-body">
-                  <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
-                </div>
-              </div>
-            </div>
-            ';
+                  <div class="col-md-2 d-flex">
+                    <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                      <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
+                      <div class="card-body">
+                        <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                      </div>
+                    </div>
+                  </div>
+                  ';
                   $cnt++;
               } else {
                   $html .= '
-                <div class="col-md-1"></div>
-              </div>
-              <div class="row  text-center py-4">
-                <div class="col-md-1"></div>
+                      <div class="col-md-1"></div>
+                    </div>
+                    <div class="row  text-center py-4">
+                      <div class="col-md-1"></div>
 
-            ';
+                  ';
 
                   $html .= '
-            <div class="col-md-2 ">
-              <div class="card" style="border:none !important; width:90%; margin:0 auto;">
-                <img class="card-img-top" style="height:80%;" src="'.$path.'" alt="Card image cap">
-                <div class="card-body">
-                  <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
-                </div>
-              </div>
-            </div>
-            ';
+                    <div class="col-md-2 ">
+                      <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                        <img class="card-img-top" style="height:80%;" src="'.$path.'" alt="Card image cap">
+                        <div class="card-body">
+                          <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                        </div>
+                      </div>
+                    </div>
+                  ';
                   $cnt = 2;
               }
           }
       }
+
+      $query = 'SELECT count(*) as total FROM `mobile_story`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+      $count = $result[0]['total'];
+      $count = ceil($count/10);
+
+      if ($count <= 3) {
+          if ($count == 2) {
+              if ($page == 1) {
+                  $pagination = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          ';
+                  $pagination .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $pagination = '
+            <li class="page-item ">
+                <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              }
+          } else {
+              if ($page == 1) {
+                  $pagination = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'">3</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } elseif ($page == 3) {
+                  $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'">3</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'">3</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+            }
+          }
+      }
+      else{
+        if($page == 1){
+          $pagination = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'">3</a></li>
+          ';
+
+          $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else if($page == $count){
+          $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page='.($page-1).'&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $pagination .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page-2).'&pageH='.$pageH.'">'.($page-2).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page-1).'&pageH='.$pageH.'">'.($page-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page='.($page).'&pageH='.$pageH.'">'.($page).'</a></li>
+          ';
+
+          $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page='.($page).'&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else{
+          $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page='.($page-1).'&pageH='.$pageH.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $pagination .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page-1).'&pageH='.$pageH.'">'.($page-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page='.($page).'&pageH='.$pageH.'">'.($page).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page+1).'&pageH='.$pageH.'">'.($page+1).'</a></li>
+          ';
+
+          $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page='.($page+1).'&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+      }
+
+      // youtube set section 
+
+      $startH1 = ($pageH - 1)*6;
+
+      // include_once './_connect_dbs.php';
+      $query = 'SELECT * FROM `youtube_video` ORDER BY `id` DESC';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+
+          $htmlH = '';
+          $cnt = 1;
+          // foreach ($result as $know) {
+            for($i = $startH1; $i<= min(($startH1 + 5), count($result) - 1); $i++){
+              if ($cnt <= 3) {
+                $htmlH .= '
+                
+                  <div class="col-md-4 text-center ">
+                    <h4>
+                        '.$result[$i]['name'].'
+                    </h4>
+                    <br>
+                      <p class = "youtube">
+                      '.$result[$i]['link'].'
+                      </p>
+                  </div>
+                ';
+                $cnt++;
+            // echo $cnt;
+            } else {
+                $htmlH .='
+                    </div>
+                  <div class="row comicRow text-center">
+                ';
+                $htmlH .= '
+                
+                  <div class="col-md-4 text-center ">
+                    <h4>
+                        '.$result[$i]['name'].'
+                    </h4>
+                    <br>
+                      <p class = "youtube">
+                      '.$result[$i]['link'].'
+                      </p>
+                  </div>
+                ';
+                $cnt = 2;
+                //   echo $cnt;
+              }          }
+      }
+
+      $query = 'SELECT count(*) as total FROM `youtube_video`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+      $countH = $result[0]['total'];
+      $countH = ceil($countH/6);
+
+      if ($countH <= 3) {
+          if ($countH == 2) {
+              if ($pageH == 1) {
+                  $paginationH = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $paginationH = '
+            <li class="page-item ">
+                <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              }
+          } else {
+              if ($pageH == 1) {
+                  $paginationH = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'">3</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } elseif ($pageH == 3) {
+                  $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'">3</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'">3</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+            }
+          }
+      }
+      else{
+        if($pageH == 1){
+          $paginationH = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $paginationH .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'">3</a></li>
+          ';
+
+          $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else if($pageH == $countH){
+          $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $paginationH .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH-2).'&page='.$page.'">'.($pageH-2).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'&page='.$page.'">'.($pageH-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH).'&page='.$page.'">'.($pageH).'</a></li>
+          ';
+
+          $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH='.($pageH).'&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else{
+          $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'&page='.$page.'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $paginationH .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'&page='.$page.'">'.($pageH-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH).'&page='.$page.'">'.($pageH).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH+1).'&page='.$page.'">'.($pageH+1).'</a></li>
+          ';
+
+          $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH='.($pageH+1).'&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+      }
+  }
+
+
+  
+  //===========================================================================================================================
+  // mms is set
+  else if (isset($_GET['page']) && $_GET['page'] != '') {
+
+      $page = $_GET['page'];
+      $start1 = ($page - 1)*10;
+
+      include_once './_connect_dbs.php';
+      $query = 'SELECT * FROM `mobile_story` ORDER BY `id` DESC';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+
+          $html = '<div class="col-md-1"></div>';
+          $cnt = 1;
+          // foreach ($result as $know) {
+            for($i = $start1; $i<= min(($start1 + 9), count($result) - 1); $i++){
+              $path = 'https://admin.cybersalamat.com/'.$result[$i]['path'];
+              $id = $result[$i]['id'];
+
+              if ($cnt <= 5) {
+                  $html .= '
+                  <div class="col-md-2 d-flex">
+                    <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                      <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
+                      <div class="card-body">
+                        <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                      </div>
+                    </div>
+                  </div>
+                  ';
+                  $cnt++;
+              } else {
+                  $html .= '
+                      <div class="col-md-1"></div>
+                    </div>
+                    <div class="row  text-center py-4">
+                      <div class="col-md-1"></div>
+
+                  ';
+
+                  $html .= '
+                    <div class="col-md-2 ">
+                      <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                        <img class="card-img-top" style="height:80%;" src="'.$path.'" alt="Card image cap">
+                        <div class="card-body">
+                          <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                        </div>
+                      </div>
+                    </div>
+                  ';
+                  $cnt = 2;
+              }
+          }
+      }
+
+      $query = 'SELECT count(*) as total FROM `mobile_story`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+      $count = $result[0]['total'];
+      $count = ceil($count/10);
+
+      if ($count <= 3) {
+          if ($count == 2) {
+              if ($page == 1) {
+                  $pagination = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          ';
+                  $pagination .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $pagination = '
+            <li class="page-item ">
+                <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              }
+          } else {
+              if ($page == 1) {
+                  $pagination = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3">3</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } elseif ($page == 3) {
+                  $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=3">3</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page=3" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $pagination .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3">3</a></li>
+          ';
+
+                  $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=3" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+            }
+          }
+      }
+      else{
+        if($page == 1){
+          $pagination = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3">3</a></li>
+          ';
+
+          $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else if($page == $count){
+          $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page='.($page-1).'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $pagination .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page-2).'">'.($page-2).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page-1).'">'.($page-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page='.($page).'">'.($page).'</a></li>
+          ';
+
+          $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page='.($page).'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else{
+          $pagination = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?page='.($page-1).'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $pagination .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page-1).'">'.($page-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page='.($page).'">'.($page).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.($page+1).'">'.($page+1).'</a></li>
+          ';
+
+          $pagination .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?page='.($page+1).'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+      }
+
+      // youtube section
+
+      
+      $query = 'SELECT * FROM `youtube_video` ORDER BY `id` DESC LIMIT 6';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+
+          $htmlH = '';
+          $cnt = 1;
+          foreach ($result as $know) {
+              if ($cnt <= 3) {
+                  $htmlH .= '
+                  
+                    <div class="col-md-4 text-center ">
+                      <h4>
+                          '.$know['name'].'
+                      </h4>
+                      <br>
+                        <p class = "youtube">
+                        '.$know['link'].'
+                        </p>
+                    </div>
+                  ';
+                  $cnt++;
+              // echo $cnt;
+              } else {
+                  $htmlH .='
+                      </div>
+                    <div class="row text-center" style="padding-top:4%;">
+                  ';
+                  $htmlH .= '
+                  
+                    <div class="col-md-4 text-center ">
+                      <h4>
+                          '.$know['name'].'
+                      </h4>
+                      <br>
+                        <p class = "youtube">
+                        '.$know['link'].'
+                        </p>
+                    </div>
+                  ';
+                  $cnt = 2;
+                  //   echo $cnt;
+              }
+          }
+      }
+
+      $query = 'SELECT count(*) as total FROM `youtube_video`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+
+      $countH = $result[0]['total'];
+
+      // echo $countH;
+
+      $countH = ceil($countH/6);
+
+      // echo $countH;
+
+      if ($countH <=3) {
+          if ($countH == 1) {
+              $paginationH = '';
+          } else {
+              $paginationH = '
+                <li class="page-item disabled">
+                  <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+              ';
+              for ($i = 1; $i<=$countH; $i++) {
+                  if ($i == 1) {
+                    $paginationH .= '
+                      <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH='.$i.'&page='.$page.'">'.$i.'</a></li>
+                    ';
+                  } else {
+                      $paginationH .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.$i.'&page='.$page.'">'.$i.'</a></li>
+            ';
+                  }
+              }
+              $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+        ';
+          }
+      } else {
+          $paginationH = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1&page='.$page.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3&page='.$page.'">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2&page='.$page.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+      ';
+      }
+
+  }
+  // hindi page is set english is not
+  
+  //===========================================================================================================================
+
+  else if (isset($_GET['pageH']) && $_GET['pageH'] != '') {
+    include_once './_connect_dbs.php';
+    $pageH = $_GET['pageH'];
+
+
+    // english is not set
+    $query = 'SELECT * FROM `mobile_story` ORDER BY `id` DESC LIMIT 10';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+
+          $html = '<div class="col-md-1"></div>';
+          $cnt = 1;
+          foreach ($result as $know) {
+            $path = 'https://admin.cybersalamat.com/'.$know['path'];
+            $id = $know['id'];
+
+            if ($cnt <= 5) {
+                $html .= '
+                <div class="col-md-2 d-flex">
+                  <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                    <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
+                    <div class="card-body">
+                      <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                    </div>
+                  </div>
+                </div>
+                ';
+                $cnt++;
+            } else {
+                $html .= '
+                    <div class="col-md-1"></div>
+                  </div>
+                  <div class="row  text-center py-4">
+                    <div class="col-md-1"></div>
+
+                ';
+
+                $html .= '
+                  <div class="col-md-2 ">
+                    <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                      <img class="card-img-top" style="height:80%;" src="'.$path.'" alt="Card image cap">
+                      <div class="card-body">
+                        <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                      </div>
+                    </div>
+                  </div>
+                ';
+                $cnt = 2;
+            }
+          }
+      }
+
+      $query = 'SELECT count(*) as total FROM `mobile_story`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+
+      $count = $result[0]['total'];
+
+      $count = ceil($count/10);
+
+      // echo $count;
+
+      if ($count <=3) {
+          if ($count == 1) {
+              $pagination = '';
+          } else {
+              $pagination = '
+            <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+        ';
+              for ($i = 1; $i<=$count; $i++) {
+                  if ($i == 1) {
+                      $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page='.$i.'&pageH='.$pageH.'">'.$i.'</a></li>
+            ';
+                  } else {
+                      $pagination .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.$i.'&pageH='.$pageH.'">'.$i.'</a></li>
+            ';
+                  }
+              }
+              $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+        ';
+          }
+      } else {
+          $pagination = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1&pageH='.$pageH.'">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3&pageH='.$pageH.'">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2&pageH='.$pageH.'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+      ';
+      }
+
+      // hindi section
+
+      $startH1 = ($pageH - 1)*6;
+
+      include_once './_connect_dbs.php';
+      $query = 'SELECT * FROM `youtube_video` ORDER BY `id` DESC';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+
+          $htmlH = '';
+          $cnt = 1;
+          // foreach ($result as $know) {
+            for($i = $startH1; $i<= min(($startH1 + 5), count($result) - 1); $i++){
+              if ($cnt <= 3) {
+                $htmlH .= '
+                
+                  <div class="col-md-4 text-center ">
+                    <h4>
+                        '.$result[$i]['name'].'
+                    </h4>
+                    <br>
+                      <p class = "youtube">
+                      '.$result[$i]['link'].'
+                      </p>
+                  </div>
+                ';
+                $cnt++;
+            // echo $cnt;
+            } else {
+                $htmlH .='
+                    </div>
+                  <div class="row text-center" style="padding-top:4%;">
+                ';
+                $htmlH .= '
+                
+                  <div class="col-md-4 text-center ">
+                    <h4>
+                        '.$result[$i]['name'].'
+                    </h4>
+                    <br>
+                      <p class = "youtube">
+                      '.$result[$i]['link'].'
+                      </p>
+                  </div>
+                ';
+                $cnt = 2;
+                //   echo $cnt;
+              }
+            }
+      }
+
+      $query = 'SELECT count(*) as total FROM `youtube_video`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+      $countH = $result[0]['total'];
+      $countH = ceil($countH/6);
+
+      if ($countH <= 3) {
+          if ($countH == 2) {
+              if ($pageH == 1) {
+                  $paginationH = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $paginationH = '
+            <li class="page-item ">
+                <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              }
+          } else {
+              if ($pageH == 1) {
+                  $paginationH = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3">3</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } elseif ($pageH == 3) {
+                  $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=3">3</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH=3" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+              } else {
+                  $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+                  $paginationH .= '
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3">3</a></li>
+          ';
+
+                  $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=3" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+            }
+          }
+      }
+      else{
+        if($pageH == 1){
+          $paginationH = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $paginationH .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3">3</a></li>
+          ';
+
+          $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else if($pageH == $countH){
+          $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $paginationH .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH-2).'">'.($pageH-2).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'">'.($pageH-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH).'">'.($pageH).'</a></li>
+          ';
+
+          $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH='.($pageH).'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+        else{
+          $paginationH = '
+            <li class="page-item">
+                <a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+          ';
+          $paginationH .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH-1).'">'.($pageH-1).'</a></li>
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH).'">'.($pageH).'</a></li>
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.($pageH+1).'">'.($pageH+1).'</a></li>
+          ';
+
+          $paginationH .= '
+          <li class="page-item disabled">
+            <a class="page-link" href="./myMobileStory.php?pageH='.($pageH+1).'" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          ';
+        }
+      }
+  }
+  
+  // not anything is set
+
+  //===========================================================================================================================
+  
+  else {
+      include_once './_connect_dbs.php';
+      $query = 'SELECT * FROM `mobile_story` ORDER BY `id` DESC LIMIT 10';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+          $html = '<div class="col-md-1"></div>';
+
+          $cnt = 1;
+          foreach ($result as $know) {
+            $path = 'https://admin.cybersalamat.com/'.$know['path'];
+            $id = $know['id'];
+
+            if ($cnt <= 5) {
+                $html .= '
+                <div class="col-md-2 d-flex">
+                  <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                    <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
+                    <div class="card-body">
+                      <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                    </div>
+                  </div>
+                </div>
+                ';
+                $cnt++;
+            } else {
+                $html .= '
+                    <div class="col-md-1"></div>
+                  </div>
+                  <div class="row  text-center py-4">
+                    <div class="col-md-1"></div>
+
+                ';
+
+                $html .= '
+                  <div class="col-md-2 ">
+                    <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+                      <img class="card-img-top" style="height:80%;" src="'.$path.'" alt="Card image cap">
+                      <div class="card-body">
+                        <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+                      </div>
+                    </div>
+                  </div>
+                ';
+                $cnt = 2;
+            }
+          }
+      }
+
+      $query = 'SELECT count(*) as total FROM `mobile_story`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+
+      $count = $result[0]['total'];
+
+      $count = ceil($count/10);
+
+      // echo $count;
+
+      if ($count <=3) {
+          if ($count == 1) {
+              $pagination = '';
+          } else {
+              $pagination = '
+            <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+        ';
+              for ($i = 1; $i<=$count; $i++) {
+                  if ($i == 1) {
+                      $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page='.$i.'">'.$i.'</a></li>
+            ';
+                  } else {
+                      $pagination .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?page='.$i.'">'.$i.'</a></li>
+            ';
+                  }
+              }
+              $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+        ';
+          }
+      } else {
+          $pagination = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?page=3">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+      ';
+      }
+
+      //Youtube Section 
+
+      $query = 'SELECT * FROM `youtube_video` ORDER BY `id` DESC LIMIT 6';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      if ($query_stmt->rowCount() > 0) {
+          $result = $query_stmt->fetchAll();
+
+          $htmlH = '';
+          $cnt = 1;
+          foreach ($result as $know) {
+              if ($cnt <= 3) {
+                  $htmlH .= '
+                  
+                    <div class="col-md-4 text-center ">
+                      <h4>
+                          '.$know['name'].'
+                      </h4>
+                      <br>
+                        <p class = "youtube">
+                        '.$know['link'].'
+                        </p>
+                    </div>
+                  ';
+                  $cnt++;
+              // echo $cnt;
+              } else {
+                  $htmlH .='
+                      </div>
+                    <div class="row text-center" style="padding-top:4%;">
+                  ';
+                  $htmlH .= '
+                  
+                    <div class="col-md-4 text-center ">
+                      <h4>
+                          '.$know['name'].'
+                      </h4>
+                      <br>
+                        <p class = "youtube">
+                        '.$know['link'].'
+                        </p>
+                    </div>
+                  ';
+                  $cnt = 2;
+                  //   echo $cnt;
+              }
+          }
+      }
+
+      $query = 'SELECT count(*) as total FROM `youtube_video`';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+
+      $countH = $result[0]['total'];
+
+      // echo $countH;
+
+      $countH = ceil($countH/6);
+
+      // echo $countH;
+
+      if ($countH <=3) {
+          if ($countH == 1) {
+              $paginationH = '';
+          } else {
+              $paginationH = '
+            <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+        ';
+              for ($i = 1; $i<=$countH; $i++) {
+                  if ($i == 1) {
+                      $paginationH .= '
+            <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH='.$i.'">'.$i.'</a></li>
+            ';
+                  } else {
+                      $paginationH .= '
+            <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH='.$i.'">'.$i.'</a></li>
+            ';
+                  }
+              }
+              $paginationH .= '
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+        ';
+          }
+      } else {
+          $paginationH = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./myMobileStory.php?pageH=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="./myMobileStory.php?pageH=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./myMobileStory.php?pageH=3">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="./myMobileStory.php?pageH=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+      ';
+      }
+  }
+  
+      // include_once './_connect_dbs.php';
+      
+
+      // $query = 'SELECT * FROM `mobile_story` ORDER BY RAND() LIMIT 20';
+      // $query_stmt = $db_app->prepare($query);
+      // $query_stmt->execute();
+
+      // if ($query_stmt->rowCount() > 0) {
+      //     $result = $query_stmt->fetchAll();
+        
+          
+      //     $html = '<div class="col-md-1"></div>';
+      //     $cnt = 1;
+      //     foreach ($result as $story) {
+      //         $path = 'https://admin.cybersalamat.com/'.$story['path'];
+      //         $id = $story['id'];
+
+      //         if ($cnt <= 5) {
+      //             $html .= '
+      //       <div class="col-md-2 d-flex">
+      //         <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+      //           <img class="card-img-top" style="height:80%; " src="'.$path.'" alt="Card image cap">
+      //           <div class="card-body">
+      //             <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+      //           </div>
+      //         </div>
+      //       </div>
+      //       ';
+      //             $cnt++;
+      //         } else {
+      //             $html .= '
+      //           <div class="col-md-1"></div>
+      //         </div>
+      //         <div class="row  text-center py-4">
+      //           <div class="col-md-1"></div>
+
+      //       ';
+
+      //             $html .= '
+      //       <div class="col-md-2 ">
+      //         <div class="card" style="border:none !important; width:90%; margin:0 auto;">
+      //           <img class="card-img-top" style="height:80%;" src="'.$path.'" alt="Card image cap">
+      //           <div class="card-body">
+      //             <a href="https://cybersalamat.com/myMobileStory.php?id='.$id.'" class="btn btn-primary" style="margin-top:-20%; font-size:80%">READ</a>
+      //           </div>
+      //         </div>
+      //       </div>
+      //       ';
+      //             $cnt = 2;
+      //         }
+      //     }
+      // }
+
+
   }
 ?>
 
@@ -336,9 +1858,53 @@
       </div>
     </div>
 
+    
+    <div class="container-fluid">
+      <div class="contianer">
+        <div class="row text-center">
+          <div class="col-md-12 ">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <?php echo $pagination; ?>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="container-fluid m-0 audio">
+    <div class="container ">
+      <div class="row audio-heading">
+        <h2>
+          Video Stories
+        </h2>
+      </div>
+      <div class="row text-center" style="padding-top:4%;">
+
+        <?php echo $htmlH; ?>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="container-fluid">
+      <div class="contianer">
+        <div class="row text-center">
+          <div class="col-md-12 ">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <?php echo $paginationH; ?>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <?php echo $mores; ?>
-
+    
 
     <div class="container-fluid">
       <div class="row text-center py-4">
