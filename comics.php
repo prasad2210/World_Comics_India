@@ -161,18 +161,24 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
             }
         }
     }
-} else {
-  
+}
+
+// this page above is for read more
+// ============================================================================================================================================
+
+else {
     include_once './_connect_dbs.php';
     $social_share= '';
     $mores = '';
     $extra = '';
 
     if (isset($_GET['t']) && $_GET['t']!= '') {
+        $comic = '';
         $type = $_GET['t'];
 
         $arr = ["Digital Basics", "Digital Essentials", "Digital Opportunities", "Digital Risks", "Digital Safety", "Digital Content", "Cyber Laws and Rights"];
 
+          // echo $type;
         $heading = '
        <div class="container-fluid">
         <div class="row p-4 text-center">
@@ -225,131 +231,852 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
       </div>  
     ';
     
-    $type = $type + 1;
+        $type = $type + 1;
 
 
-        $query = 'SELECT * FROM `comics` WHERE `category` = :type1 AND `lang` = "0" ORDER BY RAND() LIMIT 15';
+        if (isset($_GET['page']) && $_GET['page'] != '') {
+          $page = $_GET['page'];
+          $start1 = ($page - 1)*9;
+          include_once './_connect_dbs.php';
+
+          
+        $query = 'SELECT * FROM `comics` WHERE `category` = :type1 AND `lang` = "0" ORDER BY `id` DESC';
         $query_stmt = $db_app->prepare($query);
         $query_stmt->execute(['type1' => $type]);
 
-        if ($query_stmt->rowCount() > 0) {
-            $result = $query_stmt->fetchAll();
 
-            $comic = '   
-          <div class="row comicRow text-center">
-      ';
+            if ($query_stmt->rowCount() > 0) {
+              $result = $query_stmt->fetchAll();
 
-            $cnt = 1;
-            $cnt1 = 1;
-            // echo 4;
-            foreach ($result as $comics) {
-                $last_id = $comics['id'];
+              
+              $comic .= '   
+              <div class="row comicRow text-center">
+                ';
+    
+                $cnt = 1;
+                $cnt1 = 1;
+              // foreach ($result as $know) {
+              for ($i = $start1; $i<= min(($start1 + 8), count($result) - 1); $i++) {
+
+                ////////////
+
+                  $last_id = $result[$i]['id'];
                 //   echo $last_id;
                 $query = 'SELECT * FROM `image_path` WHERE `comic_id` = :last_id ORDER BY `position` LIMIT  1';
                 $query_stmt = $db_app->prepare($query);
                 $query_stmt->execute(['last_id' => $last_id]);
                 //   echo 77;
                 if ($query_stmt->rowCount() == 1) {
-                    $result = $query_stmt->fetchAll();
-                     echo $result[0]['path'];
+                  $result1 = $query_stmt->fetchAll();
+                  // echo $result[0]['path'];
+                  if ($cnt <= 3) {
+                      $comic .= '
+                        <div class="col-md-4">
+                          <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+                            <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result1[0]['path'].'" alt="Card image cap">
+                            <div class="card-body">
+                              <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+                            </div>
+                          </div>
+                        </div>
+                      ';
+                      $cnt1++;
+                      $cnt++;
+                    // echo $cnt;
+                  } 
+                  else {
+                      $comic .='
+                          </div>
+                        <div class="row comicRow text-center">
+                      ';
+                      $comic .= '
+                        <div class="col-md-4">
+                          <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+                            <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result1[0]['path'].'" alt="Card image ">
+                            <div class="card-body">
+                              <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+                            </div>
+                          </div>
+                        </div>
+                      ';
+                      $cnt1++;
+                      $cnt = 2;
+                      //   echo $cnt;
+                  }
+                   
+                  if ($cnt1 == 10) {
+                      break;
+                  }
+                } 
+              }
+            }
+  
+          $query = 'SELECT count(*) as total FROM `comics` WHERE `category` = :type1 AND `lang` = "0"';
+          $query_stmt = $db_app->prepare($query);
+          $query_stmt->execute(['type1' =>$type]);
+  
+          $result = $query_stmt->fetchAll();
+          $count = $result[0]['total'];
+          $count = ceil($count/9);
+
+          // echo $count;
+
+          
+  
+          if ($count <= 3) {
+            if($count == 0){
+              	$pagination = '';
+            }
+              else if ($count == 2) {
+                  if ($page == 1) {
+                      $pagination = '
+            <li class="page-item disabled">
+                <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            ';
+                      $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+            <li class="page-item"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+            ';
+  
+                      $pagination .= '
+            <li class="page-item">
+              <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+                  } else {
+                      $pagination = '
+              <li class="page-item ">
+                  <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                      $pagination .= '
+            <li class="page-item"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+            <li class="page-item active"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+            ';
+  
+                      $pagination .= '
+            <li class="page-item disabled">
+              <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+                  }
+              } else {
+                  if ($page == 1) {
+                      $pagination = '
+              <li class="page-item disabled">
+                  <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                      $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+            <li class="page-item"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+            <li class="page-item"><a class="page-link" href="./comics.php?page=3&t='.($type-1).'">3</a></li>
+            ';
+  
+                      $pagination .= '
+            <li class="page-item">
+              <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+                  } elseif ($page == 3) {
+                      $pagination = '
+              <li class="page-item">
+                  <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                      $pagination .= '
+            <li class="page-item"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+            <li class="page-item"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+            <li class="page-item active"><a class="page-link" href="./comics.php?page=3&t='.($type-1).'">3</a></li>
+            ';
+  
+                      $pagination .= '
+            <li class="page-item disabled">
+              <a class="page-link" href="./comics.php?page=3&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+                  } else {
+                      $pagination = '
+              <li class="page-item">
+                  <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                      $pagination .= '
+            <li class="page-item"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+            <li class="page-item active"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+            <li class="page-item"><a class="page-link" href="./comics.php?page=3&t='.($type-1).'">3</a></li>
+            ';
+  
+                      $pagination .= '
+            <li class="page-item">
+              <a class="page-link" href="./comics.php?page=3&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+                  }
+              }
+          } else {
+              if ($page == 1) {
+                  $pagination = '
+              <li class="page-item disabled">
+                  <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                  $pagination .= '
+              <li class="page-item active"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=3&t='.($type-1).'">3</a></li>
+            ';
+  
+                  $pagination .= '
+            <li class="page-item">
+              <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+              } elseif ($page == $count) {
+                  $pagination = '
+              <li class="page-item">
+                  <a class="page-link" href="./comics.php?page='.($page-1).'&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                  $pagination .= '
+              <li class="page-item"><a class="page-link" href="./comics.php?page='.($page-2).'&t='.($type-1).'">'.($page-2).'</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page='.($page-1).'&t='.($type-1).'">'.($page-1).'</a></li>
+              <li class="page-item active"><a class="page-link" href="./comics.php?page='.($page).'&t='.($type-1).'">'.($page).'</a></li>
+            ';
+  
+                  $pagination .= '
+            <li class="page-item disabled">
+              <a class="page-link" href="./comics.php?page='.($page).'&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+              } else {
+                  $pagination = '
+              <li class="page-item">
+                  <a class="page-link" href="./comics.php?page='.($page-1).'&t='.($type-1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+            ';
+                  $pagination .= '
+              <li class="page-item"><a class="page-link" href="./comics.php?page='.($page-1).'&t='.($type-1).'">'.($page-1).'</a></li>
+              <li class="page-item active"><a class="page-link" href="./comics.php?page='.($page).'&t='.($type-1).'">'.($page).'</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page='.($page+1).'&t='.($type-1).'">'.($page+1).'</a></li>
+            ';
+  
+                  $pagination .= '
+            <li class="page-item disabled">
+              <a class="page-link" href="./comics.php?page='.($page+1).'&t='.($type-1).'" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            ';
+              }
+          }
+      }
+      else{
+
+        $comic = '';
+
+      $query = 'SELECT * FROM `comics` WHERE `category` = :type1 AND `lang` = "0" ORDER BY `id` DESC LIMIT 15';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute(['type1' => $type]);
+      // echo 2;
+
+      if ($query_stmt->rowCount() > 0) {
+          // echo 3;
+          $result = $query_stmt->fetchAll();
+
+          $comic .= '   
+        <div class="row comicRow text-center">
+          ';
+
+          $cnt = 1;
+          $cnt1 = 1;
+          // echo 4;
+          ///////////
+          foreach ($result as $comics) {
+              $last_id = $comics['id'];
+              //   echo $last_id;
+              $query = 'SELECT * FROM `image_path` WHERE `comic_id` = :last_id ORDER BY `position` LIMIT  1';
+              $query_stmt = $db_app->prepare($query);
+              $query_stmt->execute(['last_id' => $last_id]);
+              //   echo 77;
+              if ($query_stmt->rowCount() == 1) {
+                  $result = $query_stmt->fetchAll();
+                  // echo $result[0]['path'];
+                  if ($cnt <= 3) {
+                      $comic .= '
+                      <div class="col-md-4">
+                        <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+                          <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result[0]['path'].'" alt="Card image cap">
+                          <div class="card-body">
+                            <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+                          </div>
+                        </div>
+                      </div>
+            ';
+                      $cnt1++;
+                      $cnt++;
+                  // echo $cnt;
+                  } else {
+                      $comic .='
+              </div>
+            <div class="row comicRow text-center">
+          ';
+                      $comic .= '
+            <div class="col-md-4">
+              <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+                <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result[0]['path'].'" alt="Card image cap">
+                <div class="card-body">
+                  <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+                </div>
+              </div>
+            </div>
+            ';
+                      $cnt1++;
+                      $cnt = 2;
+                      //   echo $cnt;
+                  }
+                   
+                  if ($cnt1 == 10) {
+                      break;
+                  }
+              }
+          }
+      }
+
+    $query = 'SELECT count(*) as total FROM `comics` WHERE `lang` = "0" AND `category` = :type1';
+    $query_stmt = $db_app->prepare($query);
+    $query_stmt->execute(['type1' => $type]);
+
+    $result = $query_stmt->fetchAll();
+
+    $count = $result[0]['total'];
+
+    $count = ceil($count/9);
+
+    // echo $count;
+
+    if ($count <=3) {
+        if ($count == 1 || $count == 0) {
+            $pagination = '';
+        } else {
+            $pagination = '
+          <li class="page-item disabled">
+            <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+        </li>
+      ';
+            for ($i = 1; $i<=$count; $i++) {
+                if ($i == 1) {
+                    $pagination .= '
+          <li class="page-item active"><a class="page-link" href="./comics.php?page='.$i.'&t='.($type-1).'">'.$i.'</a></li>
+          ';
+                } else {
+                    $pagination .= '
+          <li class="page-item"><a class="page-link" href="./comics.php?page='.$i.'&t='.($type-1).'">'.$i.'</a></li>
+          ';
+                }
+            }
+            $pagination .= '
+        <li class="page-item">
+          <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>   
+      ';
+        }
+    } else {
+        $pagination = '
+        <li class="page-item disabled">
+            <a class="page-link" href="./comics.php?page=1&t='.($type-1).'" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="./comics.php?page=1&t='.($type-1).'">1</a></li>
+        <li class="page-item"><a class="page-link" href="./comics.php?page=2&t='.($type-1).'">2</a></li>
+        <li class="page-item"><a class="page-link" href="./comics.php?page=3&t='.($type-1).'">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="./comics.php?page=2&t='.($type-1).'" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>   
+    ';
+    }
+
+  }
+
+
+
+
+
+        // $query = 'SELECT * FROM `comics` WHERE `category` = :type1 AND `lang` = "0" ORDER BY `id` DESC LIMIT 15';
+        // $query_stmt = $db_app->prepare($query);
+        // $query_stmt->execute(['type1' => $type]);
+
+        // if ($query_stmt->rowCount() > 0) {
+        //     $result = $query_stmt->fetchAll();
+
+        //     $comic = '   
+        //       <div class="row comicRow text-center">
+        //     ';
+
+        //     $cnt = 1;
+        //     $cnt1 = 1;
+        //     // echo 4;
+        //     foreach ($result as $comics) {
+        //         $last_id = $comics['id'];
+        //         //   echo $last_id;
+        //         $query = 'SELECT * FROM `image_path` WHERE `comic_id` = :last_id ORDER BY `position` LIMIT  1';
+        //         $query_stmt = $db_app->prepare($query);
+        //         $query_stmt->execute(['last_id' => $last_id]);
+        //         //   echo 77;
+        //         if ($query_stmt->rowCount() == 1) {
+        //             $result = $query_stmt->fetchAll();
+        //             echo $result[0]['path'];
+        //             if ($cnt <= 3) {
+        //                 $comic .= '
+        //                   <div class="col-md-4">
+        //                     <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+        //                       <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result[0]['path'].'" alt="Card image cap">
+        //                       <div class="card-body">
+        //                         <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+        //                       </div>
+        //                     </div>
+        //                   </div>
+        //                   ';
+        //                 $cnt1++;
+        //                 $cnt++;
+        //             // echo $cnt;
+        //             } else {
+        //                 $comic .='
+        //                   </div>
+        //                 <div class="row comicRow text-center">
+        //                   ';
+        //                 $comic .= '
+        //                   <div class="col-md-4">
+        //                     <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+        //                       <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result[0]['path'].'" alt="Card image cap">
+        //                       <div class="card-body">
+        //                         <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+        //                       </div>
+        //                     </div>
+        //                   </div>
+        //                 ';
+        //                 $cnt1++;
+        //                 $cnt = 2;
+        //                 //   echo $cnt;
+        //             }
+        //             if ($cnt1 == 10) {
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+    }
+    
+    
+    
+    // no category is set 
+    // ========================================================================================================================================================
+    
+    else {
+         $heading = '
+          <div class="container-fluid">
+            <div class="row p-4 text-center">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2>
+                      Comics
+                    </h2>
+                    <p>
+                    Using comics as a visual learning aid, we deliver important information about the digital
+                    space, internet basics, cyber safety and more, in an easy to consume manner.
+                    Our comics are relatable stories based on real life that introduce and explain one concept at a time. So you can scroll, laugh and learn about the internet, one story at a time.
+                    </p>
+                    <div class="hr-black">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div class="container-fluid">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="dropdown float-right">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Select Category
+                    </button>
+                    <div class="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="./comics.php">All</a>
+                      <a class="dropdown-item" href="./comics.php?t=0">Digital Basics</a>
+                      <a class="dropdown-item" href="./comics.php?t=1">Digital Essentials</a>
+                      <a class="dropdown-item" href="./comics.php?t=2">Digital Opportunities</a>
+                      <a class="dropdown-item" href="./comics.php?t=3">Digital Risks</a>
+                      <a class="dropdown-item" href="./comics.php?t=4">Digital Safety</a>
+                      <a class="dropdown-item" href="./comics.php?t=5">Digital Content</a>
+                      <a class="dropdown-item" href="./comics.php?t=6">Cyber Laws and Rights</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      
+        ';
+        $social_share= '';
+        $mores = '';
+        $extra = '';
+        $comic = '';
+  
+        // echo 1;
+
+        // if page is set but category is not
+
+        // ==============================================================================================================================
+
+        if (isset($_GET['page']) && $_GET['page'] != '') {
+            $page = $_GET['page'];
+            $start1 = ($page - 1)*9;
+    
+            include_once './_connect_dbs.php';
+
+            
+            $query = 'SELECT * FROM `comics` WHERE `lang` = "0" ORDER BY `id` DESC';
+            $query_stmt = $db_app->prepare($query);
+            $query_stmt->execute();
+    
+              if ($query_stmt->rowCount() > 0) {
+                $result = $query_stmt->fetchAll();
+    
+
+
+                
+                $comic .= '   
+                <div class="row comicRow text-center">
+                  ';
+      
+                  $cnt = 1;
+                  $cnt1 = 1;
+                // foreach ($result as $know) {
+                for ($i = $start1; $i<= min(($start1 + 8), count($result) - 1); $i++) {
+
+                  ////////////
+
+                    $last_id = $result[$i]['id'];
+                  //   echo $last_id;
+                  $query = 'SELECT * FROM `image_path` WHERE `comic_id` = :last_id ORDER BY `position` LIMIT  1';
+                  $query_stmt = $db_app->prepare($query);
+                  $query_stmt->execute(['last_id' => $last_id]);
+                  //   echo 77;
+                  if ($query_stmt->rowCount() == 1) {
+                    $result1 = $query_stmt->fetchAll();
+                    // echo $result[0]['path'];
                     if ($cnt <= 3) {
                         $comic .= '
                           <div class="col-md-4">
                             <div class="card" style="border:none !important;width:80%; margin:0 auto;">
-                              <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result[0]['path'].'" alt="Card image cap">
-                              <div class="card-body">
-                                <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
-                              </div>
-                            </div>
-                          </div>
-                          ';
-                    $cnt1++;
-                        $cnt++;
-                    // echo $cnt;
-                    } else {
-                        $comic .='
-                          </div>
-                        <div class="row comicRow text-center">
-                          ';
-                        $comic .= '
-                          <div class="col-md-4">
-                            <div class="card" style="border:none !important;width:80%; margin:0 auto;">
-                              <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result[0]['path'].'" alt="Card image cap">
+                              <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result1[0]['path'].'" alt="Card image cap">
                               <div class="card-body">
                                 <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
                               </div>
                             </div>
                           </div>
                         ';
-                    $cnt1++;
+                        $cnt1++;
+                        $cnt++;
+                      // echo $cnt;
+                    } 
+                    else {
+                        $comic .='
+                            </div>
+                          <div class="row comicRow text-center">
+                        ';
+                        $comic .= '
+                          <div class="col-md-4">
+                            <div class="card" style="border:none !important;width:80%; margin:0 auto;">
+                              <img class="card-img-top img-fluid" src="https://admin.cybersalamat.com/'.$result1[0]['path'].'" alt="Card image cap">
+                              <div class="card-body">
+                                <a href="https://cybersalamat.com/comics.php?id='.$last_id.'" class="btn btn-primary" style="margin-top:-12%; font-size:80%;">READ</a>
+                              </div>
+                            </div>
+                          </div>
+                        ';
+                        $cnt1++;
                         $cnt = 2;
                         //   echo $cnt;
                     }
+                     
                     if ($cnt1 == 10) {
                         break;
                     }
+                  } 
+                }
+              }
+    
+            $query = 'SELECT count(*) as total FROM `comics` WHERE `lang` = "0"';
+            $query_stmt = $db_app->prepare($query);
+            $query_stmt->execute();
+    
+            $result = $query_stmt->fetchAll();
+            $count = $result[0]['total'];
+            $count = ceil($count/10);
+    
+            if ($count <= 3) {
+              if($count == 0){
+                $pagination = '';
+              }
+               else if ($count == 2) {
+                    if ($page == 1) {
+                        $pagination = '
+              <li class="page-item disabled">
+                  <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+              ';
+                        $pagination .= '
+              <li class="page-item active"><a class="page-link" href="./comics.php?page=1">1</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=2">2</a></li>
+              ';
+    
+                        $pagination .= '
+              <li class="page-item">
+                <a class="page-link" href="./comics.php?page=2" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                    } else {
+                        $pagination = '
+                <li class="page-item ">
+                    <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                        $pagination .= '
+              <li class="page-item"><a class="page-link" href="./comics.php?page=1">1</a></li>
+              <li class="page-item active"><a class="page-link" href="./comics.php?page=2">2</a></li>
+              ';
+    
+                        $pagination .= '
+              <li class="page-item disabled">
+                <a class="page-link" href="./comics.php?page=2" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                    }
+                } else {
+                    if ($page == 1) {
+                        $pagination = '
+                <li class="page-item disabled">
+                    <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                        $pagination .= '
+              <li class="page-item active"><a class="page-link" href="./comics.php?page=1">1</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=2">2</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=3">3</a></li>
+              ';
+    
+                        $pagination .= '
+              <li class="page-item">
+                <a class="page-link" href="./comics.php?page=2" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                    } elseif ($page == 3) {
+                        $pagination = '
+                <li class="page-item">
+                    <a class="page-link" href="./comics.php?page=2" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                        $pagination .= '
+              <li class="page-item"><a class="page-link" href="./comics.php?page=1">1</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=2">2</a></li>
+              <li class="page-item active"><a class="page-link" href="./comics.php?page=3">3</a></li>
+              ';
+    
+                        $pagination .= '
+              <li class="page-item disabled">
+                <a class="page-link" href="./comics.php?page=3" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                    } else {
+                        $pagination = '
+                <li class="page-item">
+                    <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                        $pagination .= '
+              <li class="page-item"><a class="page-link" href="./comics.php?page=1">1</a></li>
+              <li class="page-item active"><a class="page-link" href="./comics.php?page=2">2</a></li>
+              <li class="page-item"><a class="page-link" href="./comics.php?page=3">3</a></li>
+              ';
+    
+                        $pagination .= '
+              <li class="page-item">
+                <a class="page-link" href="./comics.php?page=3" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                    }
+                }
+            } else {
+                if ($page == 1) {
+                    $pagination = '
+                <li class="page-item disabled">
+                    <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                    $pagination .= '
+                <li class="page-item active"><a class="page-link" href="./comics.php?page=1">1</a></li>
+                <li class="page-item"><a class="page-link" href="./comics.php?page=2">2</a></li>
+                <li class="page-item"><a class="page-link" href="./comics.php?page=3">3</a></li>
+              ';
+    
+                    $pagination .= '
+              <li class="page-item">
+                <a class="page-link" href="./comics.php?page=2" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                } elseif ($page == $count) {
+                    $pagination = '
+                <li class="page-item">
+                    <a class="page-link" href="./comics.php?page='.($page-1).'" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                    $pagination .= '
+                <li class="page-item"><a class="page-link" href="./comics.php?page='.($page-2).'">'.($page-2).'</a></li>
+                <li class="page-item"><a class="page-link" href="./comics.php?page='.($page-1).'">'.($page-1).'</a></li>
+                <li class="page-item active"><a class="page-link" href="./comics.php?page='.($page).'">'.($page).'</a></li>
+              ';
+    
+                    $pagination .= '
+              <li class="page-item disabled">
+                <a class="page-link" href="./comics.php?page='.($page).'" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
+                } else {
+                    $pagination = '
+                <li class="page-item">
+                    <a class="page-link" href="./comics.php?page='.($page-1).'" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+              ';
+                    $pagination .= '
+                <li class="page-item"><a class="page-link" href="./comics.php?page='.($page-1).'">'.($page-1).'</a></li>
+                <li class="page-item active"><a class="page-link" href="./comics.php?page='.($page).'">'.($page).'</a></li>
+                <li class="page-item"><a class="page-link" href="./comics.php?page='.($page+1).'">'.($page+1).'</a></li>
+              ';
+    
+                    $pagination .= '
+              <li class="page-item disabled">
+                <a class="page-link" href="./comics.php?page='.($page+1).'" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              ';
                 }
             }
         }
-    } 
-    
-    else {
-        $heading = '
-       <div class="container-fluid">
-        <div class="row p-4 text-center">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <h2>
-                  Comics
-                </h2>
-                <p>
-                Using comics as a visual learning aid, we deliver important information about the digital
-                space, internet basics, cyber safety and more, in an easy to consume manner.
-                Our comics are relatable stories based on real life that introduce and explain one concept at a time. So you can scroll, laugh and learn about the internet, one story at a time.
-                </p>
-                <div class="hr-black">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      <div class="container-fluid">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="dropdown float-right">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Select Category
-                </button>
-                <div class="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="./comics.php">All</a>
-                  <a class="dropdown-item" href="./comics.php?t=0">Digital Basics</a>
-                  <a class="dropdown-item" href="./comics.php?t=1">Digital Essentials</a>
-                  <a class="dropdown-item" href="./comics.php?t=2">Digital Opportunities</a>
-                  <a class="dropdown-item" href="./comics.php?t=3">Digital Risks</a>
-                  <a class="dropdown-item" href="./comics.php?t=4">Digital Safety</a>
-                  <a class="dropdown-item" href="./comics.php?t=5">Digital Content</a>
-                  <a class="dropdown-item" href="./comics.php?t=6">Cyber Laws and Rights</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        else{
+          $comic = '';
 
-      
-    ';
-        $social_share= '';
-        $mores = '';
-        $extra = '';
-  
-        // echo 1;
-
-        $query = 'SELECT * FROM `comics` WHERE `lang` = "0" ORDER BY RAND() LIMIT 15';
+        $query = 'SELECT * FROM `comics` WHERE `lang` = "0" ORDER BY `id` DESC LIMIT 15';
         $query_stmt = $db_app->prepare($query);
         $query_stmt->execute();
         // echo 2;
@@ -358,13 +1085,14 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
             // echo 3;
             $result = $query_stmt->fetchAll();
 
-            $comic = '   
+            $comic .= '   
           <div class="row comicRow text-center">
             ';
 
             $cnt = 1;
             $cnt1 = 1;
             // echo 4;
+            ///////////
             foreach ($result as $comics) {
                 $last_id = $comics['id'];
                 //   echo $last_id;
@@ -386,7 +1114,7 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
                           </div>
                         </div>
               ';
-              $cnt1++;
+                        $cnt1++;
                         $cnt++;
                     // echo $cnt;
                     } else {
@@ -404,7 +1132,7 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
                 </div>
               </div>
               ';
-              $cnt1++;
+                        $cnt1++;
                         $cnt = 2;
                         //   echo $cnt;
                     }
@@ -415,7 +1143,73 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
                 }
             }
         }
+
+      $query = 'SELECT count(*) as total FROM `comics` WHERE `lang` = "0"';
+      $query_stmt = $db_app->prepare($query);
+      $query_stmt->execute();
+
+      $result = $query_stmt->fetchAll();
+
+      $count = $result[0]['total'];
+
+      $count = ceil($count/9);
+
+      // echo $count;
+
+      if ($count <=3) {
+          if ($count == 1 || $count == 0) {
+              $pagination = '';
+          } else {
+              $pagination = '
+            <li class="page-item disabled">
+              <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+        ';
+              for ($i = 1; $i<=$count; $i++) {
+                  if ($i == 1) {
+                      $pagination .= '
+            <li class="page-item active"><a class="page-link" href="./comics.php?page='.$i.'">'.$i.'</a></li>
+            ';
+                  } else {
+                      $pagination .= '
+            <li class="page-item"><a class="page-link" href="./comics.php?page='.$i.'">'.$i.'</a></li>
+            ';
+                  }
+              }
+              $pagination .= '
+          <li class="page-item">
+            <a class="page-link" href="./comics.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+        ';
+          }
+      } else {
+          $pagination = '
+          <li class="page-item disabled">
+              <a class="page-link" href="./comics.php?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="./comics.php?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="./comics.php?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="./comics.php?page=3">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="./comics.php?page=2" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>   
+      ';
+      }
+
     }
+  }    
 }
  
 
@@ -503,7 +1297,8 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
             <!--  <a class="nav-link section-name" href="./comics.php">Comics</a>-->
             <!--</li>-->
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle navbar-dark" href="./comics.php" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle navbar-dark" href="./comics.php" id="navbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 English Comics
               </a>
               <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown">
@@ -546,8 +1341,25 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
       </div>
     </div>
 
+
+    
+
     <?php echo $social_share; ?>
 
+    
+    <div class="container-fluid">
+      <div class="contianer">
+        <div class="row text-center">
+          <div class="col-md-12 ">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <?php echo $pagination; ?>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <?php echo $mores; ?>
 
@@ -572,11 +1384,13 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 text-center footer-div">
-            
+
           <div class="footer-logo">
-              <p>A join initiative of</p>
-            <a href="https://www.worldcomicsindia.com/" target="_blank" rel="noopener noreferrer"><img src="./images/logo_footer.png" alt="footer1" width="45%"></a>
-            <a href="https://www.omidyarnetwork.in/blog/can-grassroots-comics-make-tech-more-inclusive" target="_blank" rel="noopener noreferrer"><img src="./images/logo1_footer.jpg" alt="footer2" width="39%"></a>
+            <p>A join initiative of</p>
+            <a href="https://www.worldcomicsindia.com/" target="_blank" rel="noopener noreferrer"><img
+                src="./images/logo_footer.png" alt="footer1" width="45%"></a>
+            <a href="https://www.omidyarnetwork.in/blog/can-grassroots-comics-make-tech-more-inclusive" target="_blank"
+              rel="noopener noreferrer"><img src="./images/logo1_footer.jpg" alt="footer2" width="39%"></a>
 
           </div>
         </div>
@@ -594,18 +1408,22 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
               <div class="row p-0 m-0">
                 <div class="col-12 p-0 m-0">
                   <p>
-                      Follow us on Instagram 
+                    Follow us on Instagram
                   </p>
                 </div>
               </div>
               <div class="row p-0 m-0">
                 <div class="col-12 p-0 m-0">
-                    <p style ="font-size:100%;">
-                      <i class="fa fa-instagram"></i> <span style="margin-left: 2%; font-size:100%;"><a href="https://www.instagram.com/cybersalamat/" target="_blank" rel="noopener noreferrer" style="color:white;">cybersalamat</a></span>
-                    </p>
-                    <p style ="font-size:100%;">
-                      <i class="fa fa-instagram"></i> <span style="margin-left: 2%; font-size:100%;"><a href="https://www.instagram.com/cybersalamat_hindi/" target="_blank" rel="noopener noreferrer" style="color:white;">cybersalamat_hindi</a></span>
-                    </p>
+                  <p style="font-size:100%;">
+                    <i class="fa fa-instagram"></i> <span style="margin-left: 2%; font-size:100%;"><a
+                        href="https://www.instagram.com/cybersalamat/" target="_blank" rel="noopener noreferrer"
+                        style="color:white;">cybersalamat</a></span>
+                  </p>
+                  <p style="font-size:100%;">
+                    <i class="fa fa-instagram"></i> <span style="margin-left: 2%; font-size:100%;"><a
+                        href="https://www.instagram.com/cybersalamat_hindi/" target="_blank" rel="noopener noreferrer"
+                        style="color:white;">cybersalamat_hindi</a></span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -635,19 +1453,19 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
             </li>
             <li>
               <a href="./aboutUs.html">About Us</a>
-              
+
             </li>
             <li>
               <a href="./myMobileStory.php">My Mobile Story</a>
-      
+
             </li>
             <li>
               <a href="./comics.php">Comics</a>
-              
+
             </li>
             <li>
               <a href="./knowledgeHub.php">Knowledge Hub</a>
-              
+
             </li>
           </ul>
         </div>
@@ -656,9 +1474,11 @@ if (isset($_GET['id']) && $_GET['id'] !='') {
             Contact Us
           </h3>
           <p>
-              <i class="fa fa-envelope-o"></i> <span style="margin-left: 2%;"><a href="mailto: wci.digitalsociety@gmail.com" target="_blank" rel="noopener noreferrer" style="color:white;">wci.digitalsociety@gmail.com</a></span>
+            <i class="fa fa-envelope-o"></i> <span style="margin-left: 2%;"><a
+                href="mailto: wci.digitalsociety@gmail.com" target="_blank" rel="noopener noreferrer"
+                style="color:white;">wci.digitalsociety@gmail.com</a></span>
           </p>
-          
+
           <!-- <div class="row">
             <div class="col-sm-2">
               <i class="fa fa-twitter"></i>
